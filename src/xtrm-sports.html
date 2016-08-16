@@ -1,0 +1,63 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/font-roboto/font-roboto.html">
+
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="xtrm-home.html">
+<link rel="import" href="xtrm-button.html">
+<link rel="import" href="xtrm-login-dialog.html">
+
+<dom-module id="xtrm-sports">
+  <template>
+    <style>
+      :root {
+        --primary-color: #FF0F03;
+      }
+      :host {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+      }
+      iron-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        filter: blur(3px);
+        -webkit-filter: blur(3px);
+      }
+      xtrm-home {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      #login {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+      }
+    </style>
+    <iron-image src="images/background.jpeg" sizing="cover"></iron-image>
+    <xtrm-button id="login" on-tap="login">Login</xtrm-button>
+    <xtrm-home></xtrm-home>
+    <xtrm-login-dialog id="loginDialog"></xtrm-login-dialog>
+  </template>
+  <script>
+    Polymer({
+      is: 'xtrm-sports',
+
+      login: function() {
+        this.$.loginDialog.open();
+      }
+    });
+  </script>
+</dom-module>

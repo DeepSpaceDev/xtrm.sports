@@ -1,0 +1,120 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="xtrm-location-card.html">
+
+<dom-module id="xtrm-home">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      paper-icon-button:hover {
+        color: var(--primary-color);
+      }
+      header {
+        height: 200px;
+        margin-top: 32px;
+        cursor: default;  
+        background-image: url('http://localhost:8080/src/images/xtrm.sports-logo_name.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-x: 50%;  background-image: url('http://localhost:8080/src/images/xtrm.sports-logo_name.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position-x: 50%;
+      }
+      .branding {
+        font-size: 64px;
+      }
+      .subtitle {
+        font-size: 32px;
+      }
+      #search {
+        position: relative;
+        flex: 1 1 auto;
+      }
+      paper-input#search {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 550px;
+        margin-top: -28px;
+        margin-left: -275px;
+        --paper-input-container-color: #fff;
+        --paper-input-container-focus-color: var(--primary-color);
+        --paper-input-container-input-color: #fff;
+      }
+      #suggestions {
+        position: relative;
+        height: 200px;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.35);
+      }
+      #suggestions paper-icon-button {
+        position: absolute;
+        top: 50%;
+        margin-top: -12px;
+      }
+      #scrollContainer {
+        margin: 0 40px;
+        height: 100%;
+        text-align: center;
+      }
+      xtrm-location-card {
+        display: inline-block;
+        margin: 16px;
+        width: 252px;
+        height: calc(100% - 32px);
+      }
+      footer {
+        display: flex;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px;
+      }
+      footer > xtrm-button {
+        flex: 1 1 auto;
+      }
+      paper-dialog {
+        background: #fff;
+        padding: 16px;
+      }
+    </style>
+    <header></header>
+    <div id="search">
+      <paper-input id="search" label="Find it..." no-label-float>
+        <paper-icon-button suffix icon="search"></paper-icon-button>
+      </paper-input>
+    </div>
+    <div id="suggestions">
+      <paper-icon-button style="left: 0;" icon="chevron-left"></paper-icon-button>
+      <div id="scrollContainer">
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" weather="cloudy"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" weather="sunny"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" weather="cloudy"></xtrm-location-card>
+      </div>
+      <paper-icon-button style="right: 0;" icon="chevron-right"></paper-icon-button>
+    </div>
+    <footer>
+      <xtrm-button>Countries</xtrm-button>
+      <xtrm-button>Sports</xtrm-button>
+      <xtrm-button>Blog</xtrm-button>
+      <xtrm-button>Suggestions</xtrm-button>
+      <xtrm-button>Imprint</xtrm-button>
+    </footer>
+  </template>
+  <script>
+    Polymer({
+      is: 'xtrm-home',
+
+      properties: {}
+    });
+  </script>
+</dom-module>

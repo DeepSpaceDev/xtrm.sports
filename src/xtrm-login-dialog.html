@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="xtrm-login-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-input {
+        width: 400px;
+      }
+      xtrm-button {
+        --xtrm-button-color: #000;
+      }
+      .button {
+        text-align: center;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+    <paper-dialog id="dialog" with-backdrop>
+      <paper-input id="email" label="Email"></paper-input>
+      <div id="confirmationEmail" class="hidden">Login confirmation Email sent</div>
+      <div id="loggedIn" class="hidden">Logged In</div>
+      <div class="button">
+        <xtrm-button on-tap="loginWithEmail">Login</xtrm-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+    var HTML_PROTOCOL = 'http://';
+    var WS_PROTOCOL = 'ws://';
+    var BASE_URL = 'api.deepspace.onl:5556/';
+
+    Polymer({
+      is: 'xtrm-login-dialog',
+
+      properties: {
+        loginSocket: {
+          type: Object
+        }
+      },
+
+      open: function() {
+        this.$.dialog.open();
+        this.loginSocket = new WebSocket(WS_PROTOCOL + BASE_URL + 'login');
+        this.loginSocket.onopen = function() {
+          if (this.message) {
+            this.loginSocket.send(this.message);
+          }
+          this.socketOpened = true;
+        }.bind(this);
+      },
+
+      loginWithEmail: function() {
+
+        this.loginSocket.onmessage = function(e) {
+          var json = JSON.parse(e.data);
+          if (json.success) {
+            var token = json.token;
+            console.log(token);
+            this.$.confirmationEmail.classList.add('hidden');
+            this.$.loggedIn.classList.remove('hidden');
+          }
+          if (json.emailSent) {
+            // TODO: Disable Login Button
+            this.$.confirmationEmail.classList.remove('hidden');
+            this.$.loggedIn.classList.add('hidden');
+          }
+        }.bind(this);
+        var json = {
+          login: true,
+          email: this.$.email.value,
+          user_agent: window.navigator.userAgent
+        };
+        var message = JSON.stringify(json);
+        if (this.socketOpened) {
+          this.loginSocket.send(message);
+        } else {
+          this.message = message;
+        }
+      }
+    });
+  </script>
+</dom-module>
