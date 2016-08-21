@@ -51,7 +51,7 @@
         z-index: 1;
       }
     </style>
-    <iron-image id="backgroundImage" src="images/background.jpeg" sizing="cover"></iron-image>
+    <iron-image id="backgroundImage" src="" sizing="cover"></iron-image>
     <app-location route="{{route}}"></app-location>
     <app-route
       route="{{route}}"
@@ -61,15 +61,23 @@
     </app-route>
 
     <xtrm-button id="login" on-tap="login">Login</xtrm-button>
-    <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]">
+    <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]" selected-item="{{pageSelected}}">
+      <!-- each items needs a property "visible" which sets the background image -->
       <xtrm-home page="home"></xtrm-home>
-      <xtrm-location-info page="location" route="[[tail]]"></xtrm-location-info>
+      <xtrm-location-info page="location" route="[[tail]]" id="xtrmLocationInfo"></xtrm-location-info>
     </iron-pages>
     <xtrm-login-dialog id="loginDialog"></xtrm-login-dialog>
   </template>
   <script>
     Polymer({
       is: 'xtrm-sports',
+
+      properties: {
+        pageSelected: {
+          type: Object,
+          observer: '_pageChanged'
+        }
+      },
 
       listeners: {
         'setPage': '_setPage',
@@ -88,8 +96,7 @@
       _setPage: function(e){
         history.pushState(null, null, e.detail.page);
         switch(e.detail.page){
-          case"xtrm-location-info":
-            this.$.xtrmLocationInfo.visible();
+          case"location":
             break;
         }
       },
@@ -101,6 +108,14 @@
       */
       _setBackgroundImage: function(e){
         this.$.backgroundImage.src = e.detail.image;
+      },
+
+      _pageChanged: function(){
+        var item = this.$.pageSelector.selectedItem;
+        console.warn("page changed");
+        console.warn(item);
+        console.warn(this.pageSelected);
+        item.visible();
       }
     });
   </script>
