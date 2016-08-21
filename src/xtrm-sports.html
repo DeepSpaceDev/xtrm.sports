@@ -1,5 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+
 <link rel="import" href="../bower_components/font-roboto/font-roboto.html">
 
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
@@ -47,11 +50,19 @@
         z-index: 1;
       }
     </style>
+    <app-location route="{{route}}"></app-location>
+    <app-route
+      route="{{route}}"
+      pattern="/:page"
+      data="{{data}}"
+      tail="{{tail}}">
+    </app-route>
+
     <iron-image src="images/background.jpeg" sizing="cover"></iron-image>
     <xtrm-button id="login" on-tap="login">Login</xtrm-button>
-    <iron-pages id="pageSelector" attr-for-selected="name" selected="xtrm-home">
-      <xtrm-home name="xtrm-home"></xtrm-home>
-      <xtrm-location-info name="xtrm-location-info"></xtrm-location-info>
+    <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]">
+      <xtrm-home page="home"></xtrm-home>
+      <xtrm-location-info page="location" route="[[tail]]"></xtrm-location-info>
     </iron-pages>
     <xtrm-login-dialog id="loginDialog"></xtrm-login-dialog>
   </template>
@@ -72,7 +83,7 @@
       *   e.page: dom to show
       */
       _setPage: function(e){
-          this.$.pageSelector.select(e.page);
+          history.pushState(null, null, e.detail.page);
       }
     });
   </script>
