@@ -3,6 +3,7 @@
 <link rel="import" href="../bower_components/font-roboto/font-roboto.html">
 
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
@@ -48,15 +49,30 @@
     </style>
     <iron-image src="images/background.jpeg" sizing="cover"></iron-image>
     <xtrm-button id="login" on-tap="login">Login</xtrm-button>
-    <xtrm-home></xtrm-home>
+    <iron-pages id="pageSelector" attr-for-selected="name" selected="xtrm-home">
+      <xtrm-home name="xtrm-home"></xtrm-home>
+      <xtrm-location-info name="xtrm-location-info"></xtrm-location-info>
+    </iron-pages>
     <xtrm-login-dialog id="loginDialog"></xtrm-login-dialog>
   </template>
   <script>
     Polymer({
       is: 'xtrm-sports',
 
+      listeners: {
+        'setPage': '_setPage'
+      },
+
       login: function() {
         this.$.loginDialog.open();
+      },
+
+      /*
+      * Event e
+      *   e.page: dom to show
+      */
+      _setPage: function(e){
+          this.$.pageSelector.select(e.page);
       }
     });
   </script>
