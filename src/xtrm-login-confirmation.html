@@ -1,10 +1,11 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
+
+<link rel="import" href="xtrm-page-behavior.html">
 <!--
 Page for confirming the email login
 -->
-
 <dom-module id="xtrm-login-confirmation">
   <template>
     <style>
@@ -27,6 +28,8 @@ Page for confirming the email login
   <script>
     Polymer({
       is: 'xtrm-login-confirmation',
+
+      behaviors: [XtrmPageBehavior],
 
       properties: {
         route: Object,
