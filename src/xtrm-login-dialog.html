@@ -1,5 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+
 <dom-module id="xtrm-login-dialog">
   <template>
     <style>
@@ -20,11 +23,30 @@
       }
     </style>
     <paper-dialog id="dialog" with-backdrop>
-      <paper-input id="email" label="Email"></paper-input>
-      <div id="confirmationEmail" class="hidden">Login confirmation Email sent</div>
-      <div id="loggedIn" class="hidden">Logged In</div>
+      <h2>[[headline]]</h2>
+      <paper-dialog-scrollable>
+        <paper-input id="email" label="Email"></paper-input>
+        <div id="register" class="hidden">
+          <div id="generalInfos">
+            <paper-input id="firstname" label="First name"></paper-input>
+            <paper-input id="lastname" label="Last name"></paper-input>
+            <paper-input id="nickname" label="Nick name"></paper-input>
+            <label>
+              <input id="birthday" type="date">
+              Birthday
+            </label><br>
+            <xtrm-button on-tap="moreInfos">More Infos</xtrm-button>
+          </div>
+          <div id="additionalInfos" class="hidden">
+            <paper-input id="telephone" label="Telephone"></paper-input>
+            <paper-input id="website" label="Website"></paper-input>
+          </div>
+        </div>
+        <div id="confirmationEmail" class="hidden">Login confirmation Email sent</div>
+        <div id="loggedIn" class="hidden">Logged In</div>
+      </paper-dialog-scrollable>
       <div class="button">
-        <xtrm-button on-tap="loginWithEmail">Login</xtrm-button>
+        <xtrm-button on-tap="loginRegister">[[buttonAction]]</xtrm-button>
       </div>
     </paper-dialog>
   </template>
@@ -33,6 +55,14 @@
       is: 'xtrm-login-dialog',
 
       properties: {
+        headline: {
+          type: String,
+          value: 'Login'
+        },
+        buttonAction: {
+          type: String,
+          value: 'login'
+        },
         loginSocket: {
           type: Object
         }
@@ -40,6 +70,44 @@
 
       open: function() {
         this.$.dialog.open();
+      },
+
+      moreInfos: function() {
+        this.$.additionalInfos.classList.remove('hidden');
+      },
+
+      loginRegister: function() {
+        switch(this.buttonAction) {
+          case 'register': this.register(); break;
+          case 'login': this.loginWithEmail(); break;
+        }
+      },
+
+      register: function() {
+        var request = new Request(API_REGISTER_URL, {
+          method: 'POST', 
+          mode: 'cors', 
+          redirect: 'follow',
+          body: JSON.stringify({
+            email: this.$.email.value,
+            firstname: this.$.firstname.value
+          })
+        });
+        fetch(request).then(result => {
+          if (result.ok)
+            return result.json();
+        }).then(json => {
+            if (json.success) {
+              this.$.register.classList.add('hidden');
+              this.$.additionalInfos.classList.add('hidden');
+              this.loginWithEmail();
+            }
+        });
+      },
+
+      loginWithEmail: function() {
+        if (this.loginSocket && typeof this.loginSocket.close == 'function')
+          this.loginSocket.close();
         this.loginSocket = new WebSocket(API_LOGIN_URL);
         this.loginSocket.onopen = function() {
           if (this.message) {
@@ -47,22 +115,27 @@
           }
           this.socketOpened = true;
         }.bind(this);
-      },
-
-      loginWithEmail: function() {
 
         this.loginSocket.onmessage = function(e) {
           var json = JSON.parse(e.data);
-          if (json.success) {
+          console.log(json);
+          if (json.register) {
+            this.headline = 'Please register first:';
+            this.buttonAction = 'register';
+            this.$.register.classList.remove('hidden');
+          }
+          else if (json.emailSent) {
+            // TODO: Disable Login Button
+            this.headline = 'confirmation email sent, please check your inbox!';
+            this.buttonAction = 'Send again';
+            this.$.confirmationEmail.classList.remove('hidden');
+            this.$.loggedIn.classList.add('hidden');
+          }
+          else if (json.success) {
             var token = json.token;
             console.log(token);
             this.$.confirmationEmail.classList.add('hidden');
             this.$.loggedIn.classList.remove('hidden');
-          }
-          if (json.emailSent) {
-            // TODO: Disable Login Button
-            this.$.confirmationEmail.classList.remove('hidden');
-            this.$.loggedIn.classList.add('hidden');
           }
         }.bind(this);
         var json = {
