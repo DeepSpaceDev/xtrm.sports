@@ -116,6 +116,10 @@
 
       properties: {},
 
+      attached: function(){
+        this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
+      },
+
       locationInfo: function(){
         this.fire('setPage', {page: 'location'});
       }

@@ -13,6 +13,7 @@
 <link rel="import" href="xtrm-home.html">
 <link rel="import" href="xtrm-button.html">
 <link rel="import" href="xtrm-login-dialog.html">
+<link rel="import" href="xtrm-location-info.html">
 
 <dom-module id="xtrm-sports">
   <template>
@@ -50,6 +51,7 @@
         z-index: 1;
       }
     </style>
+    <iron-image id="backgroundImage" src="images/background.jpeg" sizing="cover"></iron-image>
     <app-location route="{{route}}"></app-location>
     <app-route
       route="{{route}}"
@@ -58,7 +60,6 @@
       tail="{{tail}}">
     </app-route>
 
-    <iron-image src="images/background.jpeg" sizing="cover"></iron-image>
     <xtrm-button id="login" on-tap="login">Login</xtrm-button>
     <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]">
       <xtrm-home page="home"></xtrm-home>
@@ -71,7 +72,8 @@
       is: 'xtrm-sports',
 
       listeners: {
-        'setPage': '_setPage'
+        'setPage': '_setPage',
+        'setBackgroundImage': '_setBackgroundImage'
       },
 
       login: function() {
@@ -79,11 +81,26 @@
       },
 
       /*
-      * Event e
-      *   e.page: dom to show
+      * _setPage(Event e)
+      * set the main page to display
+      *   e.detail.page: dom to show
       */
       _setPage: function(e){
-          history.pushState(null, null, e.detail.page);
+        history.pushState(null, null, e.detail.page);
+        switch(e.detail.page){
+          case"xtrm-location-info":
+            this.$.xtrmLocationInfo.visible();
+            break;
+        }
+      },
+
+      /*
+      * setBackgroundImage(Event e)
+      * set the background image of the page
+      *   e.detail.image: path to background image
+      */
+      _setBackgroundImage: function(e){
+        this.$.backgroundImage.src = e.detail.image;
       }
     });
   </script>
