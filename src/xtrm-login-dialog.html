@@ -29,10 +29,6 @@
     </paper-dialog>
   </template>
   <script>
-    var HTML_PROTOCOL = 'http://';
-    var WS_PROTOCOL = 'ws://';
-    var BASE_URL = 'api.deepspace.onl:5556/';
-
     Polymer({
       is: 'xtrm-login-dialog',
 
@@ -44,7 +40,7 @@
 
       open: function() {
         this.$.dialog.open();
-        this.loginSocket = new WebSocket(WS_PROTOCOL + BASE_URL + 'login');
+        this.loginSocket = new WebSocket(API_LOGIN_URL);
         this.loginSocket.onopen = function() {
           if (this.message) {
             this.loginSocket.send(this.message);
