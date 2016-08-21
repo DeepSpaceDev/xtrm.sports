@@ -96,7 +96,10 @@
       *   e.detail.page: dom to show
       */
       _setPage: function(e){
-        history.pushState(null, null, e.detail.page);
+        var link = document.createElement('a');
+        link.href = e.detail.page;
+        document.body.appendChild(link);
+        link.click();
         switch(e.detail.page){
           case"location":
             break;
