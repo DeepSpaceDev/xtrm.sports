@@ -1,0 +1,27 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/font-roboto/font-roboto.html">
+
+<dom-module id="xtrm-location-info">
+  <template>
+    <style>
+
+    </style>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'xtrm-location-info',
+
+      listeners: {
+      },
+
+      //has to be called when element gets visible
+      visible: function(){
+        //todo set to location specific image
+        console.log("xtrm-location-info visible")
+        this.fire('setBackgroundImage', {image: 'src/images/location.jpg'});
+      }
+    });
+  </script>
+</dom-module>
