@@ -12,6 +12,7 @@
 
 <link rel="import" href="xtrm-home.html">
 <link rel="import" href="xtrm-button.html">
+<link rel="import" href="xtrm-login-confirmation.html">
 <link rel="import" href="xtrm-login-dialog.html">
 <link rel="import" href="xtrm-location-info.html">
 
@@ -37,7 +38,7 @@
         filter: blur(3px);
         -webkit-filter: blur(3px);
       }
-      xtrm-home {
+      iron-pages > * {
         position: absolute;
         top: 0;
         left: 0;
@@ -64,7 +65,8 @@
     <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]" selected-item="{{pageSelected}}">
       <!-- each items needs a property "visible" which sets the background image -->
       <xtrm-home page="home"></xtrm-home>
-      <xtrm-location-info page="location" route="[[tail]]" id="xtrmLocationInfo"></xtrm-location-info>
+      <xtrm-location-info page="location" route="[[tail]]"></xtrm-location-info>
+      <xtrm-login-confirmation page="confirm" route="[[tail]]"></xtrm-login-confirmation>
     </iron-pages>
     <xtrm-login-dialog id="loginDialog"></xtrm-login-dialog>
   </template>
