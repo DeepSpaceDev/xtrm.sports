@@ -35,7 +35,9 @@
               <input id="birthday" type="date">
               Birthday
             </label><br>
-            <xtrm-button on-tap="moreInfos">More Infos</xtrm-button>
+            <div class="button">
+              <xtrm-button on-tap="moreInfos">More Infos</xtrm-button>
+            </div>
           </div>
           <div id="additionalInfos" class="hidden">
             <paper-input id="telephone" label="Telephone"></paper-input>
@@ -74,6 +76,7 @@
 
       moreInfos: function() {
         this.$.additionalInfos.classList.remove('hidden');
+        this.$.dialog.notifyResize();
       },
 
       loginRegister: function() {
@@ -100,6 +103,7 @@
             if (json.success) {
               this.$.register.classList.add('hidden');
               this.$.additionalInfos.classList.add('hidden');
+              this.$.dialog.notifyResize();
               this.loginWithEmail();
             }
         });
@@ -123,10 +127,11 @@
             this.headline = 'Please register first:';
             this.buttonAction = 'register';
             this.$.register.classList.remove('hidden');
+            this.$.dialog.notifyResize();
           }
           else if (json.emailSent) {
             // TODO: Disable Login Button
-            this.headline = 'confirmation email sent, please check your inbox!';
+            this.headline = 'Confirmation email sent, check your inbox!';
             this.buttonAction = 'Send again';
             this.$.confirmationEmail.classList.remove('hidden');
             this.$.loggedIn.classList.add('hidden');

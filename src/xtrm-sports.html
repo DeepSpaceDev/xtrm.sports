@@ -10,6 +10,7 @@
 
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
+<link rel="import" href="xtrm-background-image.html">
 <link rel="import" href="xtrm-home.html">
 <link rel="import" href="xtrm-button.html">
 <link rel="import" href="xtrm-login-confirmation.html">
@@ -29,15 +30,6 @@
         height: 100%;
         color: #fff;
       }
-      iron-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        filter: blur(3px);
-        -webkit-filter: blur(3px);
-      }
       iron-pages > * {
         position: absolute;
         top: 0;
@@ -52,7 +44,6 @@
         z-index: 1;
       }
     </style>
-    <iron-image id="backgroundImage" src="" sizing="cover"></iron-image>
     <app-location route="{{route}}"></app-location>
     <app-route
       route="{{route}}"
@@ -60,6 +51,8 @@
       data="{{data}}"
       tail="{{tail}}">
     </app-route>
+
+    <xtrm-background-image src="[[backgroundImage]]"></xtrm-background-image>
 
     <xtrm-button id="login" on-tap="login">Login</xtrm-button>
     <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]" selected-item="{{pageSelected}}">
@@ -112,7 +105,7 @@
       *   e.detail.image: path to background image
       */
       _setBackgroundImage: function(e){
-        this.$.backgroundImage.src = e.detail.image;
+        this.backgroundImage = e.detail.image;
       },
 
       _pageChanged: function(){

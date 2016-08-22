@@ -1,0 +1,76 @@
+<!--
+A helper element to be put under all other visible elements 
+for showing a background image or multiple images w/ and w/o overlay.
+
+Example:
+
+    <xtrm-background-image src="https://www.google.de/images/branding/product/ico/googleg_lodp.ico"></xtrm-background-image>
+
+-->
+
+<dom-module id="xtrm-background-image">
+  <template>
+    <style>
+      :host {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        overflow: hidden;
+      }
+      iron-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.20);
+      }
+    </style>
+    <iron-image id="image" src="[[_currentSrc]]" sizing="cover"></iron-image>
+    <div class="overlay"></div>
+  </template>
+  <script>
+    Polymer({
+      is: 'xtrm-background-image',
+
+      properties: {
+        src: {
+          type: String,
+          observer: '_srcChanged'
+        },
+        _currentSrc: {
+          type: String,
+          readOnly: true
+        }
+        //TODO: Let setting muliple sources in another property, which cycles over the different images
+      },
+
+      _srcChanged: function(src) {
+        // If source is valid URL
+        if (isValidURL(src)) {
+          // Set current src to given one
+          this._set_currentSrc(src);
+        } else {
+          // Try to get a valid source by prepending the base url
+          src = BASE_URL + src;
+          // If source is now valid URL
+          if (isValidURL(src)) {
+            // Set current src to given local one
+            this._set_currentSrc(src);
+          } else {
+            //TODO: Set default image(s)
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
