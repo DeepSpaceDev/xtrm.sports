@@ -68,10 +68,14 @@
       is: 'xtrm-sports',
 
       properties: {
+        route: Object,
+        data: Object,
+        tail: Object,
         pageSelected: {
           type: Object,
           observer: '_pageChanged'
-        }
+        },
+        backgroundImage: String
       },
 
       listeners: {
