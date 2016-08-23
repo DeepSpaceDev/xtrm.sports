@@ -13,6 +13,9 @@ addons:
 before_script:
 - npm install -g bower polylint web-component-tester
 - bower install
+- cd bower_components/font-roboto
+- ls
+- cd ../..
 - polylint
 script:
 - xvfb-run wct --skip-plugin sauce

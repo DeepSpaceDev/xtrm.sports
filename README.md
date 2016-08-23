@@ -1,5 +1,5 @@
 # \<xtrm-sports\>
-
+[![Build Status](https://travis-ci.org/DeepSpaceDev/xtrm.sports.svg?branch=master)](https://travis-ci.org/DeepSpaceDev/xtrm.sports)
 
 
 ## Install the Polymer-CLI
