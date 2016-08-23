@@ -29,9 +29,8 @@
       });
 
       test('can be focused', function() {
-        button.focus();
+        MockInteractions.focus(button);
         expect(button.focused).to.be.eql(true);
-        expect(button === document.activeElement).to.be.eql(true);
       });
 
       test('can be triggered with space', function(done) {
