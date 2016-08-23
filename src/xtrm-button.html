@@ -2,6 +2,8 @@
 
 <link rel="import" href="../bower_components/font-roboto/roboto.html">
 
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+
 <dom-module id="xtrm-button">
   <template>
     <style>
@@ -51,6 +53,8 @@
     Polymer({
       is: 'xtrm-button',
 
+      behaviors: [Polymer.IronA11yKeysBehavior],
+
       hostAttributes: {
         role: 'button',
         tabindex: '0'
@@ -71,6 +75,15 @@
         'blur': '_onBlur',
         'mouseenter': '_onFocus',
         'mouseleave': '_onBlur'
+      },
+
+      keyBindings: {
+        'enter': '_click',
+        'space': '_click'
+      },
+
+      _click: function() {
+        this.click();
       },
       
       _onFocus: function() {
