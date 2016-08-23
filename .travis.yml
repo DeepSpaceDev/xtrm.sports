@@ -13,6 +13,7 @@ addons:
 before_script:
 - npm install -g bower polylint web-component-tester
 - bower install
+- ls
 - polylint
 script:
 - xvfb-run wct --skip-plugin sauce
