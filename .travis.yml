@@ -13,6 +13,7 @@ addons:
 before_script:
 - npm install -g bower polylint web-component-tester
 - bower install
+- cd bower_components
 - ls
 - polylint
 script:
