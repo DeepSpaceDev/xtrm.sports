@@ -2,10 +2,10 @@
 
 <link rel="import" href="../bower_components/font-roboto/roboto.html">
 
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <link rel="import" href="images/weather-icons.html">
-<link rel="import" href="xtrm-home.html">
 
 <dom-module id="xtrm-location-card">
   <template>
@@ -16,6 +16,14 @@
         color: #fff;
         text-align: left;
         cursor: pointer;
+        transition: transform ease 0.12s;
+      }
+      /*TODO: Consider changing width and height using FLIP */
+      :host.focused {
+        transform: scale(1.07);
+      }
+      :host:focus {
+        outline-color: var(--primary-color);
       }
       #image {
         width: 100%;
@@ -54,7 +62,14 @@
     Polymer({
       is: 'xtrm-location-card',
 
+      behaviors: [Polymer.IronA11yKeysBehavior],
+
+      hostAttributes: {
+        tabindex: '0'
+      },
+
       properties: {
+        id: Number,
         name: String,
         weather: String,
         sport: String,
@@ -62,11 +77,56 @@
         picture: {
           type: String,
           observer: '_pictureChanged'
+        },
+        focused: {
+          type: Boolean,
+          value: false,
+          readOnly: true,
+          notify: true,
+          observer: '_focusedChanged'
         }
+      },
+
+      listeners: {
+        'focus': '_onFocus',
+        'blur': '_onBlur',
+        'mouseenter': '_onFocus',
+        'mouseleave': '_onBlur',
+        'tap': '_changeToLocationPage'
+      },
+
+      keyBindings: {
+        'enter': '_click',
+        'space': '_click'
+      },
+
+      _click: function() {
+        this.click();
+      },
+
+      _changeToLocationPage: function() {
+        this.fire('setPage', {page: `location/${this.id}`});
       },
 
       _pictureChanged: function(picture) {
         this.$.image.style['background-image'] = `url(${picture})`;
+      },
+
+      _onFocus: function() {
+        this._setFocused(true);
+      },
+
+      _onBlur: function() {
+        this._setFocused(false);
+      },
+
+      _focusedChanged: function(focused) {
+        if (focused) {
+          this.style['will-change'] = 'transform';
+          this.classList.add('focused');
+        } else {
+          this.classList.remove('focused');
+        }
       }
     });
   </script>

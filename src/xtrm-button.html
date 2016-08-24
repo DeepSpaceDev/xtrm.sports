@@ -96,8 +96,8 @@
 
       _focusedChanged: function(focused) {
         if (focused) {
-          this.$.underline.classList.add('focused');
           this.$.underline.style['will-change'] = 'transform';
+          this.$.underline.classList.add('focused');
         } else {
           this.$.underline.classList.remove('focused');
         }

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>xtrm-button basic tests</title>
+  <title>xtrm-button tests</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
@@ -21,6 +21,7 @@
   </test-fixture>
 
   <script>
+    /** Keyboard accessibiltiy tests */
     suite('<xtrm-button>', function() {
       var button;
 
@@ -47,7 +48,7 @@
         MockInteractions.pressEnter(button);
       });
     });
-
+    /** Accessibiltiy tests */
     suite('<xtrm-button>', function() {
       var button;
 

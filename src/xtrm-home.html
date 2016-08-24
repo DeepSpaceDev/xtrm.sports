@@ -97,9 +97,9 @@
     <div id="suggestions">
       <paper-icon-button style="left: 0;" icon="chevron-left"></paper-icon-button>
       <div id="scrollContainer">
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" on-tap="locationInfo" weather="cloudy"></xtrm-location-card>
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" weather="sunny"></xtrm-location-card>
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" weather="cloudy"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="23" weather="cloudy"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="14" weather="sunny"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="90" weather="cloudy"></xtrm-location-card>
       </div>
       <paper-icon-button style="right: 0;" icon="chevron-right"></paper-icon-button>
     </div>
@@ -124,10 +124,6 @@
         //todo set to location specific image
         console.log("xtrm-home visible")
         this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
-      },
-
-      locationInfo: function(){
-        this.fire('setPage', {page: 'location'});
       }
     });
   </script>
