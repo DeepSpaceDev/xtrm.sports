@@ -17,32 +17,26 @@
         flex-direction: column;
         overflow: hidden;
       }
+
       paper-icon-button:hover {
         color: var(--primary-color);
       }
+
       header {
         height: 200px;
         margin-top: 32px;
-        cursor: default;  
-        background-image: url('http://localhost:8080/src/images/xtrm.sports-logo_name.png');
+        cursor: default;
         background-size: contain;
-        background-repeat: no-repeat;
-        background-position-x: 50%;  background-image: url('http://localhost:8080/src/images/xtrm.sports-logo_name.png');
-        background-size: contain;
-        background-repeat: no-repeat;
+        background: url('http://localhost:8080/src/images/xtrm.sports-logo_name.png') no-repeat;
         background-position-x: 50%;
       }
-      .branding {
-        font-size: 64px;
-      }
-      .subtitle {
-        font-size: 32px;
-      }
+
       #search {
         position: relative;
         flex: 1 1 auto;
       }
-      paper-input#search {
+
+      paper-input#searchInput {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -53,36 +47,43 @@
         --paper-input-container-focus-color: var(--primary-color);
         --paper-input-container-input-color: #fff;
       }
+
       #suggestions {
         position: relative;
         height: 200px;
         width: 100%;
         background: rgba(255, 255, 255, 0.35);
       }
+
       #suggestions paper-icon-button {
         position: absolute;
         top: 50%;
         margin-top: -12px;
       }
+
       #scrollContainer {
         margin: 0 40px;
         height: 100%;
         text-align: center;
       }
+
       xtrm-location-card {
         display: inline-block;
         margin: 16px;
         width: 252px;
         height: calc(100% - 32px);
       }
+
       footer {
         display: flex;
         background: rgba(255, 255, 255, 0.5);
         padding: 8px;
       }
+
       footer > xtrm-button {
         flex: 1 1 auto;
       }
+
       paper-dialog {
         background: #fff;
         padding: 16px;
@@ -90,16 +91,19 @@
     </style>
     <header></header>
     <div id="search">
-      <paper-input id="search" label="Find it..." no-label-float>
+      <paper-input id="searchInput" label="Find it..." no-label-float>
         <paper-icon-button suffix icon="search"></paper-icon-button>
       </paper-input>
     </div>
     <div id="suggestions">
       <paper-icon-button style="left: 0;" icon="chevron-left"></paper-icon-button>
       <div id="scrollContainer">
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="23" weather="cloudy"></xtrm-location-card>
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="14" weather="sunny"></xtrm-location-card>
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="90" weather="cloudy"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="23"
+                            weather="cloudy"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="14"
+                            weather="sunny"></xtrm-location-card>
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="90"
+                            weather="cloudy"></xtrm-location-card>
       </div>
       <paper-icon-button style="right: 0;" icon="chevron-right"></paper-icon-button>
     </div>
@@ -112,6 +116,7 @@
     </footer>
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
     Polymer({
       is: 'xtrm-home',
 
@@ -120,9 +125,9 @@
       properties: {},
 
       //has to be called when element gets visible
-      visible: function(){
+      visible: function () {
         //todo set to location specific image
-        console.log("xtrm-home visible")
+        console.log("xtrm-home visible");
         this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
       }
     });

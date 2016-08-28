@@ -1,4 +1,5 @@
 <!doctype html>
+<!--suppress ES6ModulesDependencies -->
 <html>
 <head>
   <meta charset="UTF-8">
@@ -14,80 +15,84 @@
 </head>
 <body>
 
-  <test-fixture id="LocationCard">
-    <template>
-      <xtrm-location-card id="23"></xtrm-location-card>
-    </template>
-  </test-fixture>
+<test-fixture id="LocationCard">
+  <template>
+    <xtrm-location-card id="23"></xtrm-location-card>
+  </template>
+</test-fixture>
 
-  <script>
-    /** Basic tests */
-    suite('<xtrm-location-card>', function() {
-      var card, ironIcon, image;
+<script>
+  //noinspection ES6ModulesDependencies
+  /** Basic tests */
+  suite('<xtrm-location-card>', function () {
+    var card, ironIcon, image;
 
-      setup(function() {
-        card = fixture('LocationCard');
-        ironIcon = card.$$('iron-icon');
-        image = card.$.image;
-      });
-
-      test('weather is displayed by weather icon', function() {
-        var weather = 'cloudy'
-        card.weather = weather;
-        expect(ironIcon.icon).to.be.eql(`weather:${weather}`);
-      });
-
-      test('picture is displayed', function() {
-        var pictureURL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/672px-SMPTE_Color_Bars.svg.png';
-        card.picture = pictureURL;
-        expect(image.style['background-image']).to.satisfy(function(backgroundImage) {
-          var doubleQuotes = backgroundImage === `url("${pictureURL}")`;
-          var singleQuotes = backgroundImage === `url('${pictureURL}')`;
-          return doubleQuotes || singleQuotes;
-        });
-      });
-
-      test('fires setPage event when clicked', function(done) {
-        card.addEventListener('setPage', function(e) {
-          var assertedSubLink = `location/${card.id}`;
-          expect(e).to.have.deep.property('detail.page', assertedSubLink);
-          done();
-        });
-        MockInteractions.tap(card);
-      });
-    });
-    /** Keyboard accessibiltiy tests */
-    suite('<xtrm-location-card>', function() {
-      var card;
-
-      setup(function() {
-        card = fixture('LocationCard');
-      });
-
-      test('can be focused', function() {
-        MockInteractions.focus(card);
-        expect(card.focused).to.be.eql(true);
-      });
-
-      test('can be triggered with space', function(done) {
-        card.addEventListener('click', function() {
-          done();
-        });
-        MockInteractions.pressSpace(card);
-      });
-
-      test('can be triggered with enter', function(done) {
-        card.addEventListener('click', function() {
-          done();
-        });
-        MockInteractions.pressEnter(card);
-      });
-    });
-    /** Accessibiltiy tests */
-    suite('<xtrm-location-card>', function() {
-      a11ySuite('LocationCard');
+    //noinspection ES6ModulesDependencies
+    setup(() => {
+      card = fixture('LocationCard');
+      ironIcon = card.$$('iron-icon');
+      image = card.$.image;
     });
 
-  </script>
+    test('weather is displayed by weather icon', function () {
+      var weather = 'cloudy';
+      card.weather = weather;
+      //noinspection JSUnresolvedVariable
+      expect(ironIcon.icon).to.be.eql(`weather:${weather}`);
+    });
+
+    test('picture is displayed', function () {
+      var pictureURL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/672px-SMPTE_Color_Bars.svg.png';
+      card.picture = pictureURL;
+      //noinspection JSUnresolvedFunction
+      expect(image.style['background-image']).to.satisfy(function (backgroundImage) {
+        var doubleQuotes = backgroundImage === `url("${pictureURL}")`;
+        var singleQuotes = backgroundImage === `url('${pictureURL}')`;
+        return doubleQuotes || singleQuotes;
+      });
+    });
+
+    test('fires setPage event when clicked', function (done) {
+      card.addEventListener('setPage', function (e) {
+        var assertedSubLink = `location/${card.id}`;
+        //noinspection JSUnresolvedVariable
+        expect(e).to.have.deep.property('detail.page', assertedSubLink);
+        done();
+      });
+      MockInteractions.tap(card);
+    });
+  });
+  /** Keyboard accessibiltiy tests */
+  suite('<xtrm-location-card>', function () {
+    var card;
+
+    setup(() => card = fixture('LocationCard'));
+
+    test('can be focused', function () {
+      MockInteractions.focus(card);
+      //noinspection JSUnresolvedVariable
+      expect(card.focused).to.be.eql(true);
+    });
+
+    test('can be triggered with space', function (done) {
+      card.addEventListener('click', function () {
+        done();
+      });
+      MockInteractions.pressSpace(card);
+    });
+
+    test('can be triggered with enter', function (done) {
+      card.addEventListener('click', function () {
+        done();
+      });
+      MockInteractions.pressEnter(card);
+    });
+  });
+  /** Accessibiltiy tests */
+  suite('<xtrm-location-card>', function () {
+    a11ySuite('LocationCard');
+  });
+
+</script>
 </body>
 </html>

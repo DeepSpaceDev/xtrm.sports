@@ -15,6 +15,7 @@ Page for confirming the email login
       :host {
         display: flex;
       }
+
       .status {
         margin: auto;
         font-family: 'Roboto', sans-serif;
@@ -22,13 +23,15 @@ Page for confirming the email login
       }
     </style>
     <app-route
-      route="{{route}}"
-      pattern="/:token"
-      data="{{data}}">
+        route="{{route}}"
+        pattern="/:token"
+        data="{{data}}">
     </app-route>
     <div class="status">[[status]]</div>
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
+    //noinspection JSUnusedGlobalSymbols
     Polymer({
       is: 'xtrm-login-confirmation',
 
@@ -47,12 +50,12 @@ Page for confirming the email login
 
       observers: ['_dataChanged(data.*)'],
 
-      _dataChanged: function() {
+      _dataChanged: function () {
         if (!this.data || !this.data.token) return;
         var token = this.data.token;
         var request = new Request(API_CONFIRM_URL, {
-          method: 'POST', 
-          mode: 'cors', 
+          method: 'POST',
+          mode: 'cors',
           redirect: 'follow',
           body: JSON.stringify({
             token: token
@@ -67,8 +70,10 @@ Page for confirming the email login
           var timeDiff = endingTime - startingTime;
           window.setTimeout(() => {
             if (json.success) {
+              //noinspection JSUnusedGlobalSymbols
               this.status = `Your log in ${json.browser} on ${json.os} was successful :)`;
             } else {
+              //noinspection JSUnusedGlobalSymbols
               this.status = json.error;
             }
           }, CONFIRM_TIMEOUT - timeDiff);

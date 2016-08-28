@@ -14,55 +14,53 @@
 </head>
 <body>
 
-  <test-fixture id="TrivialButton">
-    <template>
-      <xtrm-button>Button</xtrm-button>
-    </template>
-  </test-fixture>
+<test-fixture id="TrivialButton">
+  <template>
+    <xtrm-button>Button</xtrm-button>
+  </template>
+</test-fixture>
 
-  <script>
-    /** Keyboard accessibiltiy tests */
-    suite('<xtrm-button>', function() {
-      var button;
+<script>
+  /** Keyboard accessibiltiy tests */
+  suite('<xtrm-button>', function () {
+    var button;
 
-      setup(function() {
-        button = fixture('TrivialButton');
-      });
+    setup(() => button = fixture('TrivialButton'));
 
-      test('can be focused', function() {
-        MockInteractions.focus(button);
-        expect(button.focused).to.be.eql(true);
-      });
-
-      test('can be triggered with space', function(done) {
-        button.addEventListener('click', function() {
-          done();
-        });
-        MockInteractions.pressSpace(button);
-      });
-
-      test('can be triggered with enter', function(done) {
-        button.addEventListener('click', function() {
-          done();
-        });
-        MockInteractions.pressEnter(button);
-      });
-    });
-    /** Accessibiltiy tests */
-    suite('<xtrm-button>', function() {
-      var button;
-
-      setup(function() {
-        button = fixture('TrivialButton');
-      });
-
-      test('has aria role "button"', function() {
-        expect(button.getAttribute('role')).to.be.eql('button');
-      });
-
-      a11ySuite('TrivialButton');
+    test('can be focused', function () {
+      MockInteractions.focus(button);
+      //noinspection JSUnresolvedVariable
+      expect(button.focused).to.be.eql(true);
     });
 
-  </script>
+    test('can be triggered with space', function (done) {
+      button.addEventListener('click', function () {
+        done();
+      });
+      MockInteractions.pressSpace(button);
+    });
+
+    test('can be triggered with enter', function (done) {
+      button.addEventListener('click', function () {
+        done();
+      });
+      MockInteractions.pressEnter(button);
+    });
+  });
+  /** Accessibiltiy tests */
+  suite('<xtrm-button>', function () {
+    var button;
+
+    setup(() => button = fixture('TrivialButton'));
+
+    test('has aria role "button"', function () {
+      //noinspection JSUnresolvedVariable
+      expect(button.getAttribute('role')).to.be.eql('button');
+    });
+
+    a11ySuite('TrivialButton');
+  });
+
+</script>
 </body>
 </html>

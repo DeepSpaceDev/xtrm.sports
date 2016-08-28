@@ -1,3 +1,6 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 <!--
 A helper element to be put under all other visible elements 
 for showing a background image or multiple images w/ and w/o overlay.
@@ -19,6 +22,7 @@ Example:
         right: 0;
         overflow: hidden;
       }
+
       iron-image {
         position: absolute;
         top: 0;
@@ -26,6 +30,7 @@ Example:
         bottom: 0;
         right: 0;
       }
+
       .overlay {
         position: absolute;
         top: 0;
@@ -39,6 +44,7 @@ Example:
     <div class="overlay"></div>
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
     Polymer({
       is: 'xtrm-background-image',
 
@@ -54,17 +60,20 @@ Example:
         //TODO: Let setting muliple sources in another property, which cycles over the different images
       },
 
-      _srcChanged: function(src) {
+      _srcChanged: function (src) {
         // If source is valid URL
         if (isValidURL(src)) {
           // Set current src to given one
+          //noinspection JSUnresolvedFunction
           this._set_currentSrc(src);
         } else {
+          //TODO: remove prepending `/` in `src`
           // Try to get a valid source by prepending the base url
           src = BASE_URL + src;
           // If source is now valid URL
           if (isValidURL(src)) {
             // Set current src to given local one
+            //noinspection JSUnresolvedFunction
             this._set_currentSrc(src);
           } else {
             //TODO: Set default image(s)

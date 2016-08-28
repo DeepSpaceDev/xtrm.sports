@@ -9,12 +9,15 @@
       :host {
         display: block;
       }
+
       paper-input {
         width: 400px;
       }
+
       .button {
         text-align: center;
       }
+
       .hidden {
         display: none;
       }
@@ -50,6 +53,8 @@
     </paper-dialog>
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
+    //noinspection JSUnusedGlobalSymbols
     Polymer({
       is: 'xtrm-login-dialog',
 
@@ -67,26 +72,31 @@
         }
       },
 
-      open: function() {
+      open: function () {
         this.$.dialog.open();
       },
 
-      moreInfos: function() {
+      moreInfos: function () {
+        //noinspection JSUnresolvedVariable
         this.$.additionalInfos.classList.remove('hidden');
         this.$.dialog.notifyResize();
       },
 
-      loginRegister: function() {
-        switch(this.buttonAction) {
-          case 'register': this.register(); break;
-          case 'login': this.loginWithEmail(); break;
+      loginRegister: function () {
+        switch (this.buttonAction) {
+          case 'register':
+            this.register();
+            break;
+          case 'login':
+            this.loginWithEmail();
+            break;
         }
       },
 
-      register: function() {
+      register: function () {
         var request = new Request(API_REGISTER_URL, {
-          method: 'POST', 
-          mode: 'cors', 
+          method: 'POST',
+          mode: 'cors',
           redirect: 'follow',
           body: JSON.stringify({
             email: this.$.email.value,
@@ -97,47 +107,55 @@
           if (result.ok)
             return result.json();
         }).then(json => {
-            if (json.success) {
-              this.$.register.classList.add('hidden');
-              this.$.additionalInfos.classList.add('hidden');
-              this.$.dialog.notifyResize();
-              this.loginWithEmail();
-            }
+          if (json.success) {
+            this.$.register.classList.add('hidden');
+            //noinspection JSUnresolvedVariable
+            this.$.additionalInfos.classList.add('hidden');
+            this.$.dialog.notifyResize();
+            this.loginWithEmail();
+          }
         });
       },
 
-      loginWithEmail: function() {
+      loginWithEmail: function () {
         if (this.loginSocket && typeof this.loginSocket.close == 'function')
           this.loginSocket.close();
         this.loginSocket = new WebSocket(API_LOGIN_URL);
-        this.loginSocket.onopen = function() {
+        this.loginSocket.onopen = function () {
           if (this.message) {
             this.loginSocket.send(this.message);
           }
           this.socketOpened = true;
         }.bind(this);
 
-        this.loginSocket.onmessage = function(e) {
+        this.loginSocket.onmessage = function (e) {
           var json = JSON.parse(e.data);
           console.log(json);
           if (json.register) {
+            //noinspection JSUnusedGlobalSymbols
             this.headline = 'Please register first:';
             this.buttonAction = 'register';
             this.$.register.classList.remove('hidden');
             this.$.dialog.notifyResize();
           }
-          else if (json.emailSent) {
-            // TODO: Disable Login Button
-            this.headline = 'Confirmation email sent, check your inbox!';
-            this.buttonAction = 'Send again';
-            this.$.confirmationEmail.classList.remove('hidden');
-            this.$.loggedIn.classList.add('hidden');
-          }
-          else if (json.success) {
-            var token = json.token;
-            console.log(token);
-            this.$.confirmationEmail.classList.add('hidden');
-            this.$.loggedIn.classList.remove('hidden');
+          else { //noinspection JSUnresolvedVariable
+            if (json.emailSent) {
+              // TODO: Disable Login Button
+              //noinspection JSUnusedGlobalSymbols
+              this.headline = 'Confirmation email sent, check your inbox!';
+              this.buttonAction = 'Send again';
+              //noinspection JSUnresolvedVariable
+              this.$.confirmationEmail.classList.remove('hidden');
+              //noinspection JSUnresolvedVariable
+              this.$.loggedIn.classList.add('hidden');
+            } else if (json.success) {
+              var token = json.token;
+              console.log(token);
+              //noinspection JSUnresolvedVariable
+              this.$.confirmationEmail.classList.add('hidden');
+              //noinspection JSUnresolvedVariable
+              this.$.loggedIn.classList.remove('hidden');
+            }
           }
         }.bind(this);
         var json = {

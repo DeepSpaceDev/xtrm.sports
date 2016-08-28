@@ -26,30 +26,38 @@
         z-index: 0;
         padding: 0.7em 0.57em 0.3em 0.57em;
       }
+
       :host:hover {
         color: var(--primary-color);
         font-weight: bold;
       }
+
       :host:focus {
         color: var(--primary-color);
         outline: none;
         font-weight: bold;
       }
+
       #underline {
         width: 100%;
         height: 2px;
         background-color: var(--primary-color);
-        transform: scale3d(0,1,1);
+        transform: scale3d(0, 1, 1);
         transition: transform 0.25s ease;
       }
+
+      /*noinspection CssUnusedSymbol*/
       #underline.focused {
         transform: none;
       }
     </style>
-    <div><content></content></div>
+    <div>
+      <content></content>
+    </div>
     <div id="underline"></div>
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
     Polymer({
       is: 'xtrm-button',
 
@@ -82,19 +90,21 @@
         'space': '_click'
       },
 
-      _click: function() {
+      _click: function () {
         this.click();
       },
-      
-      _onFocus: function() {
+
+      _onFocus: function () {
+        //noinspection JSUnresolvedFunction
         this._setFocused(true);
       },
 
-      _onBlur: function() {
+      _onBlur: function () {
+        //noinspection JSUnresolvedFunction
         this._setFocused(false);
       },
 
-      _focusedChanged: function(focused) {
+      _focusedChanged: function (focused) {
         if (focused) {
           this.$.underline.style['will-change'] = 'transform';
           this.$.underline.classList.add('focused');

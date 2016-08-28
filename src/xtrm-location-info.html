@@ -10,18 +10,18 @@
 
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
     Polymer({
       is: 'xtrm-location-info',
 
       behaviors: [XtrmPageBehavior],
 
-      listeners: {
-      },
+      listeners: {},
 
       //has to be called when element gets visible
-      visible: function(){
+      visible: function () {
         //todo set to location specific image
-        console.log("xtrm-location-info visible")
+        console.log("xtrm-location-info visible");
         this.fire('setBackgroundImage', {image: 'src/images/location.jpg'});
       }
     });

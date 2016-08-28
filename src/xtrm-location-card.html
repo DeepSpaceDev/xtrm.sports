@@ -18,20 +18,24 @@
         cursor: pointer;
         transition: transform ease 0.12s;
       }
+
       /*TODO: Consider changing width and height using FLIP */
+      /*noinspection CssUnusedSymbol*/
       :host.focused {
         transform: scale(1.07);
       }
+
       :host:focus {
         outline-color: var(--primary-color);
       }
+
       #image {
         width: 100%;
         height: 100%;
         background-size: cover;
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
+        background: no-repeat 50% 50%;
       }
+
       #overlay {
         position: absolute;
         top: 50%;
@@ -41,9 +45,11 @@
         padding: 8px;
         background: rgba(0, 0, 0, 0.4);
       }
+
       #name {
         font-family: 'Roboto', 'Noto', sans-serif;
       }
+
       iron-icon {
         position: absolute;
         top: 8px;
@@ -59,6 +65,7 @@
     <iron-icon icon="weather:[[weather]]"></iron-icon>
   </template>
   <script>
+    /// <reference path="polymer.d.ts"/>
     Polymer({
       is: 'xtrm-location-card',
 
@@ -100,27 +107,29 @@
         'space': '_click'
       },
 
-      _click: function() {
+      _click: function () {
         this.click();
       },
 
-      _changeToLocationPage: function() {
+      _changeToLocationPage: function () {
         this.fire('setPage', {page: `location/${this.id}`});
       },
 
-      _pictureChanged: function(picture) {
+      _pictureChanged: function (picture) {
         this.$.image.style['background-image'] = `url(${picture})`;
       },
 
-      _onFocus: function() {
+      _onFocus: function () {
+        //noinspection JSUnresolvedFunction
         this._setFocused(true);
       },
 
-      _onBlur: function() {
+      _onBlur: function () {
+        //noinspection JSUnresolvedFunction
         this._setFocused(false);
       },
 
-      _focusedChanged: function(focused) {
+      _focusedChanged: function (focused) {
         if (focused) {
           this.style['will-change'] = 'transform';
           this.classList.add('focused');
