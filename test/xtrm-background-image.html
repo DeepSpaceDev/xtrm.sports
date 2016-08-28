@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>xtrm-background-image tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+  <link rel="import" href="../src/xtrm-background-image.html">
+  <script src="../src/scripts/const.js"></script>
+  <script src="../src/scripts/tools.js"></script>
+
+</head>
+<body>
+
+<test-fixture id="DefaultFixture">
+  <template>
+    <xtrm-background-image></xtrm-background-image>
+  </template>
+</test-fixture>
+<test-fixture id="RelativePathFixture">
+  <template>
+    <!-- Add `src` attr with relative path dynmically in setup -->
+    <xtrm-background-image></xtrm-background-image>
+  </template>
+</test-fixture>
+<test-fixture id="AbsolutePathFixture">
+  <template>
+    <!-- Add `src` attr with absoulte path dynmically in setup -->
+    <xtrm-background-image></xtrm-background-image>
+  </template>
+</test-fixture>
+
+<script>
+  /** Default tests */
+  suite('<xtrm-background-image>', function () {
+    var backgroundImageFixture, relPathFixture, absPathFixture;
+    var relPath = 'src/images/background.jpeg';
+    var absPath = 'https://deepspace.onl/img/logos/DeepSpaceTrans.png';
+
+    setup(() => {
+      backgroundImageFixture = fixture('DefaultFixture');
+      relPathFixture = fixture('RelativePathFixture');
+      relPathFixture.src = relPath;
+      absPathFixture = fixture('AbsolutePathFixture');
+      absPathFixture.src = absPath;
+    });
+
+    test('If src is properly formatted', function () {
+      var relPath2abs = BASE_URL + relPath;
+      expect(relPath2abs).to.satisfy(path => {
+        return isValidURL(path);
+      });
+      expect(relPathFixture.$.image.src).to.be.eql(relPath2abs);
+      expect(absPathFixture.$.image.src).to.be.eql(absPath);
+    });
+  });
+  /** Accessibility tests */
+  suite('<xtrm-background-image>', function () {
+    var backgroundImage;
+
+    setup(() => backgroundImage = fixture('DefaultFixture'));
+
+    a11ySuite('DefaultFixture');
+  });
+
+</script>
+</body>
+</html>
