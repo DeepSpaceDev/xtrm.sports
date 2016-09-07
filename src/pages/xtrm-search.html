@@ -65,7 +65,8 @@
 
         _updateQuery: function (isVisible, query) {
           if (!isVisible) return;
-          history.replaceState(null, null, `/search/${query}`);
+          //TODO: replace spaces in URI with `+` instead of standard `%20`
+          history.replaceState(null, null, `/search/${encodeURI(query)}`);
         }
 
       });
