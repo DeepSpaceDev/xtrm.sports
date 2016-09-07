@@ -1,0 +1,72 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+
+<dom-module id="xtrm-map-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%;
+        margin: 8px;
+      }
+      .title {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--primary-color);
+        font-weight: bold;
+        text-align: center;
+      }
+      .container {
+        position: relative;
+        display: block;
+        width: calc(100% - 16px);
+        height: 100%;
+      }
+      .container:after {
+        padding-top: 100%;
+        display: block;
+        content: '';
+      }
+      google-map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+      }
+    </style>
+    <div class="container">
+      <google-map latitude="[[lat]]" longitude="[[lng]]" map-type="hybrid" disable-zoom disable-map-type-control fit-to-markers api-key="AIzaSyCfK2eyhOEa0Ir5R5sG2HFTwagLWna6WdI">
+        <google-map-marker latitude="[[lat]]" longitude="[[lng]]"></google-map-marker>
+        <google-map-marker latitude="[[lat_parking]]" longitude="[[lng_parking]]"></google-map-marker>
+      </google-map>
+      <div class="title">[[country]] - [[region]]</div>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-map-card',
+
+        properties: {
+          country: String,
+          region: String,
+          lat: Number,
+          lng: Number,
+          lat_parking: Number,
+          lng_parking: Number
+        },
+
+        attached: function () {
+        }
+
+      });
+    })();
+  </script>
+</dom-module>
