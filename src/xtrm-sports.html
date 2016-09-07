@@ -10,34 +10,50 @@
 
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
+<link rel="import" href="pages/xtrm-home.html">
+<link rel="import" href="pages/xtrm-location-info.html">
+<link rel="import" href="pages/xtrm-login-confirmation.html">
+<link rel="import" href="pages/xtrm-search.html">
 <link rel="import" href="xtrm-background-image.html">
-<link rel="import" href="xtrm-home.html">
 <link rel="import" href="xtrm-button.html">
-<link rel="import" href="xtrm-login-confirmation.html">
 <link rel="import" href="xtrm-login-dialog.html">
-<link rel="import" href="xtrm-location-info.html">
 
 <dom-module id="xtrm-sports">
   <template>
     <style>
       :root {
         --primary-color: #FF0F03;
+        font-family: 'Roboto', 'Noto', sans-serif;
       }
 
       :host {
         position: relative;
-        display: block;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        display: flex;
+        flex-direction: column;
         width: 100%;
         height: 100%;
         color: #fff;
       }
 
+      iron-pages {
+        display: flex;
+        flex: 1;
+      }
+
       iron-pages > * {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
+        flex: 1;
+      }
+
+      footer {
+        display: flex;
+        background: rgba(255, 255, 255, 0.5);
+        padding: 8px;
+        z-index: 1;
+      }
+
+      footer > xtrm-button {
+        flex: 1 1 auto;
       }
 
       #login {
@@ -63,9 +79,17 @@
                 selected-item="{{pageSelected}}">
       <!-- each items needs a property "visible" which sets the background image -->
       <xtrm-home page="home"></xtrm-home>
+      <xtrm-search page="search" route="[[tail]]">Search</xtrm-search>
       <xtrm-location-info page="location" route="[[tail]]"></xtrm-location-info>
       <xtrm-login-confirmation page="confirm" route="[[tail]]"></xtrm-login-confirmation>
     </iron-pages>
+    <footer>
+      <xtrm-button>Countries</xtrm-button>
+      <xtrm-button>Sports</xtrm-button>
+      <xtrm-button>Blog</xtrm-button>
+      <xtrm-button>Suggestions</xtrm-button>
+      <xtrm-button>Imprint</xtrm-button>
+    </footer>
     <xtrm-login-dialog id="loginDialog"></xtrm-login-dialog>
   </template>
   <script>
@@ -101,7 +125,15 @@
        */
       _setPage: function (e) {
         var link = document.createElement('a');
-        link.href = e.detail.page;
+        var href = e.detail.page;
+        // Debug if you want to subroute on the page, but already are on a subroute
+        if (!isValidURL(href)) {
+          href = location.origin + '/' + href;
+        }
+        console.log(href);
+        console.log(isValidURL(href));
+        if (!isValidURL(href)) return;
+        link.href = href;
         document.body.appendChild(link);
         link.click();
         switch (e.detail.page) {
