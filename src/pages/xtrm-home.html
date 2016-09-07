@@ -1,12 +1,12 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-input/paper-input.html">
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
-<link rel="import" href="xtrm-location-card.html">
+<link rel="import" href="../xtrm-location-card.html">
 <link rel="import" href="xtrm-page-behavior.html">
 
 <dom-module id="xtrm-home">
@@ -84,16 +84,6 @@
         height: calc(100% - 32px);
       }
 
-      footer {
-        display: flex;
-        background: rgba(255, 255, 255, 0.5);
-        padding: 8px;
-      }
-
-      footer > xtrm-button {
-        flex: 1 1 auto;
-      }
-
       paper-dialog {
         background: #fff;
         padding: 16px;
@@ -105,25 +95,18 @@
         <paper-icon-button suffix icon="search" on-tap="animateToSearchPage"></paper-icon-button>
       </paper-input>
     </div>
-    <div id="suggestions" inert>
+    <div id="suggestions">
       <paper-icon-button style="left: 0;" icon="chevron-left"></paper-icon-button>
       <div id="scrollContainer">
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="23"
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" location_id="23"
                             weather="cloudy"></xtrm-location-card>
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="14"
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" location_id="14"
                             weather="partly_cloudy"></xtrm-location-card>
-        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="90"
+        <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" location_id="90"
                             weather="mainly_cloudy"></xtrm-location-card>
       </div>
       <paper-icon-button style="right: 0;" icon="chevron-right"></paper-icon-button>
     </div>
-    <footer>
-      <xtrm-button>Countries</xtrm-button>
-      <xtrm-button>Sports</xtrm-button>
-      <xtrm-button>Blog</xtrm-button>
-      <xtrm-button>Suggestions</xtrm-button>
-      <xtrm-button>Imprint</xtrm-button>
-    </footer>
   </template>
   <script>
     /// <reference path="polymer.d.ts"/>
@@ -147,7 +130,7 @@
         this.$.suggestions.setAttribute('inert', true);
         this.classList.add('search');
         window.setTimeout(() => {
-          this.fire('setPage', {page: 'search'});
+          this.fire('setPage', {page: `search/${this.$.searchInput.value}`});
         }, 700);
       }
     });

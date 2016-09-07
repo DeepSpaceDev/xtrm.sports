@@ -1,11 +1,11 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="cards/xtrm-map-card.html">
-<link rel="import" href="cards/xtrm-topo-card.html">
-<link rel="import" href="cards/xtrm-weather-card.html">
+<link rel="import" href="../cards/xtrm-map-card.html">
+<link rel="import" href="../cards/xtrm-topo-card.html">
+<link rel="import" href="../cards/xtrm-weather-card.html">
 
-<link rel="import" href="xtrm-card-description.html">
-<link rel="import" href="xtrm-column-handler.html">
+<link rel="import" href="../xtrm-card-description.html">
+<link rel="import" href="../xtrm-column-handler.html">
 <link rel="import" href="xtrm-page-behavior.html">
 
 <dom-module id="xtrm-location-info">
@@ -74,10 +74,7 @@
       behaviors: [XtrmPageBehavior],
 
       properties: {
-        id: {
-          type: Number,
-          value: 1
-        },
+        location_id: Number,
         columns: {
           type: Number,
           value: function () {
