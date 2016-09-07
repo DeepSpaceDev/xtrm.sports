@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="xtrm-card-description">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 8px;
+        margin: 8px;
+        border-radius: 3px;
+      }
+    </style>
+    <template is="dom-repeat" items="[[_pseudoArray]]">
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+    </template>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-card-description',
+
+        properties: {
+          length: {
+            type: Number,
+            value: 1,
+            observer: '_lengthChanged'
+          }
+        },
+
+        _lengthChanged: function (length) {
+          var array = [];
+          for (var i = 0; i < length; i++) {
+            array.push(i);
+          }
+          this._pseudoArray = array;
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

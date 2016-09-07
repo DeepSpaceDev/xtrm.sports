@@ -1,0 +1,57 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="xtrm-column-handler">
+  <template>
+    <style>
+      :host {
+        display: block;
+        flex: 1;
+      }
+      :host * {
+        display: block;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.7);
+      }
+    </style>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-column-handler',
+
+        behaviors: [Polymer.Templatizer],
+
+        properties: {
+          items: {
+            type: Array,
+            value: function () {
+              return [];
+            }
+          }
+        },
+
+        observers: ['_itemsChanged(items.splices)'],
+
+        _itemsChanged: function (itemSplices) {
+          this.parseItems();
+        },
+
+        parseItems: function () {
+          this.innerHTML = '';
+          for (var index in this.items) {
+            var item = this.items[index];
+            if (item.html) {
+              this.insertAdjacentHTML('beforeend', item.html);
+            }
+          }
+        },
+
+        attached: function () {
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

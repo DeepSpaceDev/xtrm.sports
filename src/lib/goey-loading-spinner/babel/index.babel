@@ -1,0 +1,142 @@
+function qs(expr, context) {
+  return (context || document).querySelector(expr);
+}
+
+function qsa(expr, context) {
+  return [].slice.call((context || document).querySelectorAll(expr), 0);
+}
+
+const log = console.log.bind(console),
+  debug = console.debug.bind(console);
+
+let obj = {
+  containerSpeed: 1.7,
+  ringsSpeed: 3.7,
+  ringSpeed: 5.1,
+  enableGooey: true,
+  containerReverse: false,
+  ringsReverse: false,
+  ringReverse: true,
+  ringCount: 10,
+  pauseAnimation: false,
+};
+
+const config = {
+  MIN: 1,
+  MAX: 10
+};
+
+const gui = new dat.GUI();
+
+// Performance optimization, only query once
+let ringsContainer = qs('.rings-container'),
+  rings = qs('.rings'),
+  ring = qsa('.ring');
+
+gui.add(obj, 'containerSpeed').min(config.MIN).max(config.MAX).step(.1).onChange((newValue) => updateContainerSpeed(newValue));
+gui.add(obj, 'ringsSpeed').min(config.MIN).max(config.MAX).step(.1).onChange((newValue) => updateRingsSpeed(newValue));
+gui.add(obj, 'ringSpeed').min(config.MIN).max(config.MAX).step(.1).onChange((newValue) => updateRingSpeed(newValue));
+gui.add(obj, 'enableGooey').onChange((newValue) => updateEnableGooey(newValue));
+gui.add(obj, 'containerReverse').onChange((newValue) => updateContainerReverse(newValue));
+gui.add(obj, 'ringsReverse').onChange((newValue) => updateRingsReverse(newValue));
+gui.add(obj, 'ringReverse').onChange((newValue) => updateRingReverse(newValue));
+gui.add(obj, 'ringCount').min(1).max(10).step(1).onChange((newValue) => updateRingCount(newValue));
+gui.add(obj, 'pauseAnimation').onChange((newValue) => updatePauseAnimation(newValue));
+
+function ieHackToMakeCssAnimChangeWork(element) {
+  let animName = element.style.animationName || 'rotate';
+  element.style.animationName = animName === 'rotate' ? 'rotate2' : 'rotate';
+  return element.style.animationName;
+}
+
+function updateContainerSpeed(newValue) {
+  requestAnimationFrame(() => {
+    ringsContainer.style.animationDuration = +(newValue.toFixed(1)) + 's';
+    ieHackToMakeCssAnimChangeWork(ringsContainer);
+  });
+}
+
+function updateRingsSpeed(newValue) {
+  requestAnimationFrame(() => {
+    rings.style.animationDuration = +(newValue.toFixed(1)) + 's';
+    ieHackToMakeCssAnimChangeWork(rings);
+  });
+}
+
+function updateRingSpeed(newValue) {
+  requestAnimationFrame(() => {
+    const val = +(newValue.toFixed(1));
+    ring.forEach((ring) => ring.style.animationDuration = val + 's');
+    let animName = ieHackToMakeCssAnimChangeWork(ring[0]);
+    ring.forEach((ring) => ring.style.animationName = animName);
+  });
+}
+
+function updateEnableGooey(newValue) {
+  requestAnimationFrame(() => {
+    newValue ? rings.classList.add('filter-gooey') : rings.classList.remove('filter-gooey');
+  });
+}
+
+function updateContainerReverse(newValue) {
+  requestAnimationFrame(() => {
+    newValue ? ringsContainer.classList.add('anim-direction-reverse') : ringsContainer.classList.remove('anim-direction-reverse');
+    !newValue ? ringsContainer.classList.add('anim-direction-normal') : ringsContainer.classList.remove('anim-direction-normal');
+
+    ieHackToMakeCssAnimChangeWork(ringsContainer);
+  });
+}
+
+function updateRingsReverse(newValue) {
+  requestAnimationFrame(() => {
+    newValue ? rings.classList.add('anim-direction-reverse') : rings.classList.remove('anim-direction-reverse');
+    !newValue ? rings.classList.add('anim-direction-normal') : rings.classList.remove('anim-direction-normal');
+
+    ieHackToMakeCssAnimChangeWork(rings);
+  });
+}
+
+function updateRingReverse(newValue) {
+  requestAnimationFrame(() => {
+    newValue ? rings.classList.add('child-anim-direction-reverse') : rings.classList.remove('child-anim-direction-reverse');
+    !newValue ? rings.classList.add('child-anim-direction-normal') : rings.classList.remove('child-anim-direction-normal');
+
+    let animName = ieHackToMakeCssAnimChangeWork(ring[0]);
+    ring.forEach((ring) => ring.style.animationName = animName);
+  });
+}
+
+function updateRingCount(newValue) {
+  requestAnimationFrame(() => {
+    ring.forEach((ring) => ring.style.height = ''); // reset
+    let i, l = ring.length;
+    newValue = newValue > l ? l : newValue;
+    for (i = 0; i < l - newValue; i++) {
+      ring[i].style.height = '0';
+    }
+  });
+}
+
+
+function updatePauseAnimation(newValue) {
+  requestAnimationFrame(() => {
+    newValue ? ringsContainer.classList.add('anim-pause') : ringsContainer.classList.remove('anim-pause');
+  });
+}
+
+
+function init() {
+
+  updateContainerSpeed(obj.containerSpeed);
+  updateRingsSpeed(obj.ringsSpeed);
+  updateRingSpeed(obj.ringSpeed);
+  updateEnableGooey(obj.enableGooey);
+  updateContainerReverse(obj.containerReverse);
+  updateRingsReverse(obj.ringsReverse);
+  updateRingReverse(obj.ringReverse);
+
+  log('init called, values from obj has been used');
+
+}
+
+init();

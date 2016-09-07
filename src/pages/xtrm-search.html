@@ -1,0 +1,74 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="xtrm-page-behavior.html">
+
+<dom-module id="xtrm-search">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      #searchInput {
+        width: 550px;
+        --paper-input-container-color: #fff;
+        --paper-input-container-focus-color: var(--primary-color);
+        --paper-input-container-input-color: #fff;
+      }
+    </style>
+    <app-route
+        route="{{route}}"
+        pattern="/:search_query"
+        data="{{data}}">
+    </app-route>
+    <paper-input id="searchInput" label="Find it..." no-label-float on-input="search" value="{{searchQuery}}" autofocus>
+      <paper-icon-button suffix icon="search" on-tap="search"></paper-icon-button>
+    </paper-input>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-search',
+
+        behaviors: [XtrmPageBehavior],
+
+        properties: {
+          route: Object,
+          data: Object,
+          searchQuery: {
+            type: String, 
+            value: ''
+          },
+          isVisible: {
+            type: Boolean,
+            value: false
+          }
+        },
+
+        observers: [
+            '_dataChanged(data.*)',
+            '_updateQuery(isVisible, searchQuery)'
+        ],
+
+        visible: function () {
+          this.isVisible = true;
+          this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
+        },
+
+        _dataChanged: function () {
+          if (!this.data || !this.data.search_query) return;
+          this.searchQuery = this.data.search_query;
+        },
+
+        _updateQuery: function (isVisible, query) {
+          if (!isVisible) return;
+          history.replaceState(null, null, `/search/${query}`);
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

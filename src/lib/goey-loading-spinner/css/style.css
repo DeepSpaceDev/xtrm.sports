@@ -1,0 +1,258 @@
+body {
+  overflow: hidden;
+}
+
+.rings-container {
+  width: 300px;
+  height: 300px;
+  width: 30vmin;
+  height: 30vmin;
+  -webkit-animation: rotate 1.7s linear infinite;
+          animation: rotate 1.7s linear infinite;
+  border-radius: 50%;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  left: calc(50% - (30vmin)/2);
+  top: calc(50% - (30vmin)/2);
+}
+
+.rings {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  -webkit-animation: rotate linear 3.7s infinite;
+          animation: rotate linear 3.7s infinite;
+  border-radius: 50%;
+}
+.rings :nth-of-type(1) {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s;
+}
+.rings :nth-of-type(1):after {
+  background: #1ac0e6;
+}
+.rings :nth-of-type(2) {
+  -webkit-animation-delay: -0.2s;
+          animation-delay: -0.2s;
+}
+.rings :nth-of-type(2):after {
+  background: #1abde6;
+}
+.rings :nth-of-type(3) {
+  -webkit-animation-delay: -0.4s;
+          animation-delay: -0.4s;
+}
+.rings :nth-of-type(3):after {
+  background: #1ab9e6;
+}
+.rings :nth-of-type(4) {
+  -webkit-animation-delay: -0.6s;
+          animation-delay: -0.6s;
+}
+.rings :nth-of-type(4):after {
+  background: #1ab6e6;
+}
+.rings :nth-of-type(5) {
+  -webkit-animation-delay: -0.8s;
+          animation-delay: -0.8s;
+}
+.rings :nth-of-type(5):after {
+  background: #1ab3e6;
+}
+.rings :nth-of-type(6) {
+  -webkit-animation-delay: -1s;
+          animation-delay: -1s;
+}
+.rings :nth-of-type(6):after {
+  background: #1aafe6;
+}
+.rings :nth-of-type(7) {
+  -webkit-animation-delay: -1.2s;
+          animation-delay: -1.2s;
+}
+.rings :nth-of-type(7):after {
+  background: #1aace6;
+}
+.rings :nth-of-type(8) {
+  -webkit-animation-delay: -1.4s;
+          animation-delay: -1.4s;
+}
+.rings :nth-of-type(8):after {
+  background: #1aa8e6;
+}
+.rings :nth-of-type(9) {
+  -webkit-animation-delay: -1.6s;
+          animation-delay: -1.6s;
+}
+.rings :nth-of-type(9):after {
+  background: #1aa5e6;
+}
+.rings :nth-of-type(10) {
+  -webkit-animation-delay: -1.8s;
+          animation-delay: -1.8s;
+}
+.rings :nth-of-type(10):after {
+  background: #1aa2e6;
+}
+.rings :nth-of-type(11) {
+  -webkit-animation-delay: -2s;
+          animation-delay: -2s;
+}
+.rings :nth-of-type(11):after {
+  background: #1a9ee6;
+}
+.rings :nth-of-type(12) {
+  -webkit-animation-delay: -2.2s;
+          animation-delay: -2.2s;
+}
+.rings :nth-of-type(12):after {
+  background: #1a9be6;
+}
+.rings :nth-of-type(13) {
+  -webkit-animation-delay: -2.4s;
+          animation-delay: -2.4s;
+}
+.rings :nth-of-type(13):after {
+  background: #1a97e6;
+}
+.rings :nth-of-type(14) {
+  -webkit-animation-delay: -2.6s;
+          animation-delay: -2.6s;
+}
+.rings :nth-of-type(14):after {
+  background: #1a94e6;
+}
+.rings :nth-of-type(15) {
+  -webkit-animation-delay: -2.8s;
+          animation-delay: -2.8s;
+}
+.rings :nth-of-type(15):after {
+  background: #1a91e6;
+}
+.rings :nth-of-type(16) {
+  -webkit-animation-delay: -3s;
+          animation-delay: -3s;
+}
+.rings :nth-of-type(16):after {
+  background: #1a8de6;
+}
+.rings :nth-of-type(17) {
+  -webkit-animation-delay: -3.2s;
+          animation-delay: -3.2s;
+}
+.rings :nth-of-type(17):after {
+  background: #1a8ae6;
+}
+.rings :nth-of-type(18) {
+  -webkit-animation-delay: -3.4s;
+          animation-delay: -3.4s;
+}
+.rings :nth-of-type(18):after {
+  background: #1a86e6;
+}
+.rings :nth-of-type(19) {
+  -webkit-animation-delay: -3.6s;
+          animation-delay: -3.6s;
+}
+.rings :nth-of-type(19):after {
+  background: #1a83e6;
+}
+.rings :nth-of-type(20) {
+  -webkit-animation-delay: -3.8s;
+          animation-delay: -3.8s;
+}
+.rings :nth-of-type(20):after {
+  background: #1a80e6;
+}
+
+.filter-gooey {
+  -webkit-filter: url("#goo");
+          filter: url("#goo");
+}
+
+.anim-direction-reverse {
+  -webkit-animation-direction: reverse !important;
+          animation-direction: reverse !important;
+}
+
+.anim-direction-normal {
+  -webkit-animation-direction: normal !important;
+          animation-direction: normal !important;
+}
+
+.child-anim-direction-reverse > * {
+  -webkit-animation-direction: reverse !important;
+          animation-direction: reverse !important;
+}
+
+.child-anim-direction-normal > * {
+  -webkit-animation-direction: normal !important;
+          animation-direction: normal !important;
+}
+
+.ring {
+  margin: 0 auto;
+  border-radius: 50%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-animation: rotate cubic-bezier(0.68, -0.55, 0.265, 1.55) 5.1s infinite;
+          animation: rotate cubic-bezier(0.68, -0.55, 0.265, 1.55) 5.1s infinite;
+  -webkit-animation-direction: reverse;
+          animation-direction: reverse;
+}
+.ring:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: calc(-7%);
+  left: calc(50% - 7%);
+  border-radius: 50%;
+  width: 14%;
+  height: 14%;
+  background: dodgerblue;
+}
+
+.anim-pause {
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+.anim-pause * {
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+
+.hidden,
+svg[data-definition] {
+  position: absolute;
+  height: 0;
+}
+
+@-webkit-keyframes rotate {
+  to {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+  }
+}
+
+@keyframes rotate {
+  to {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+  }
+}
+@-webkit-keyframes rotate2 {
+  to {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+  }
+}
+@keyframes rotate2 {
+  to {
+    -webkit-transform: rotate(1turn);
+            transform: rotate(1turn);
+  }
+}
