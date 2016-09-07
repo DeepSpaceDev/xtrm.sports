@@ -11,3 +11,5 @@ const CONFIRM_TIMEOUT = 2000;
 const API_REGISTER_URL = HTML_PROTOCOL + API_BASE_URL + 'register/';
 
 const BASE_URL = HTML_PROTOCOL + 'v2.xtrm-sports.com/';
+
+const DEFAULT_CARD_WIDTH = 350;
