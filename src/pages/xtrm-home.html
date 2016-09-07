@@ -16,6 +16,7 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        --animate-to-search-page-speed: 0.7s;
       }
 
       :host.search #searchInput {
@@ -48,13 +49,23 @@
         position: absolute;
         top: 50%;
         left: 50%;
+        /* TODO: group following styles and styles for search in `xtrm-home` in a CSS variable */
         width: 550px;
         margin-top: -28px;
         margin-left: -275px;
         --paper-input-container-color: #fff;
         --paper-input-container-focus-color: var(--primary-color);
         --paper-input-container-input-color: #fff;
-        transition: transform ease 0.7s;
+        --paper-input-container-label: {
+          font-size: 24px;
+        };
+        --paper-input-container-input: {
+          font-size: 24px;
+        };
+        --paper-input-container-underline-focus: {
+          height: 3px;
+        };
+        transition: transform ease var(--animate-to-search-page-speed);
       }
 
       #suggestions {
@@ -62,7 +73,7 @@
         height: 200px;
         width: 100%;
         background: rgba(255, 255, 255, 0.35);
-        transition: transform ease-out 0.7s;
+        transition: transform ease-out var(--animate-to-search-page-speed);
       }
 
       #suggestions paper-icon-button {
