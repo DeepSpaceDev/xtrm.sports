@@ -1,0 +1,196 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="cards/xtrm-map-card.html">
+<link rel="import" href="cards/xtrm-topo-card.html">
+<link rel="import" href="cards/xtrm-weather-card.html">
+
+<link rel="import" href="xtrm-card-description.html">
+<link rel="import" href="xtrm-column-handler.html">
+<link rel="import" href="xtrm-page-behavior.html">
+
+<dom-module id="xtrm-location-info">
+  <template>
+    <style>
+      :host {
+        color: #5b5b5b;
+      }
+      div.container {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        height: 100%;
+        margin: auto;
+      }
+      header {
+        display: flex;
+        width: calc(100% - 32px);
+        height: 32px;
+        min-height: 32px;
+        margin: 8px;
+        padding: 8px;
+        background: #fff;
+        border-radius: 3px;
+        align-items: center;
+        opacity: 0.9;
+      }
+      header .name {
+        flex: 1 1 auto;
+      }
+      div.cardContainer {
+        display: flex;
+        width: 100%;
+        flex: 1 1 auto;
+        padding-top: 45vh;
+        overflow-y: auto;
+      }
+      div.cardContainer::-webkit-scrollbar {
+        width: 6px;
+      }
+      div.cardContainer::-webkit-scrollbar-corner {
+        background: rebeccapurple;
+      }
+      div.cardContainer::-webkit-scrollbar-thumb {
+        background: #D6DADC;
+        border-radius: 4px;
+      }
+    </style>
+    <div id="container" class="container">
+      <header>
+        <div class="name">[[name]]</div>
+        <div class="discipline">[[discipline]]</div>
+      </header>
+      <div class="cardContainer">
+        <template is="dom-repeat" items="[[_pseudoColumnArray]]">
+          <xtrm-column-handler items="[[item]]"></xtrm-column-handler>
+        </template>
+      </div>
+    </div>
+  </template>
+  <script>
+    /// <reference path="polymer.d.ts"/>
+    Polymer({
+      is: 'xtrm-location-info',
+
+      behaviors: [XtrmPageBehavior],
+
+      properties: {
+        id: {
+          type: Number,
+          value: 1
+        },
+        columns: {
+          type: Number,
+          value: function () {
+            return this.calculateColumns();
+          },
+          readOnly: true,
+          observer: '_reorderColumns'
+        },
+        name: {
+          type: String,
+          value: 'Tegelberg Klettersteig',
+          readOnly: true
+        },
+        discipline: {
+          type: String,
+          value: 'via ferrata',
+          readOnly: true
+        },
+        _pseudoColumnArray: {
+          type: Array,
+          value: function () {
+            return [];
+          },
+          readOnly:  true
+        },
+        cards: {
+          type: Array,
+          value: function () {
+            return [{
+              html: '<xtrm-map-card country="Germany" region="Bavaria" lat="47.847771" lng="10.893343" lat_parking="47.848268" lng_parking="10.892686"></xtrm-map-card>',
+              height: Infinity,
+              importance: 6
+            },{
+              html: '<xtrm-weather-card></xtrm-weather-card>',
+              height: Infinity,
+              importance: 5
+            },{
+              html: '<xtrm-topo-card></xtrm-topo-card>',
+              height: Infinity,
+              importance: 4
+            },{
+              html: '<xtrm-card-description length="2"></xtrm-card-description>',
+              height: Infinity,
+              importance: 6
+            },{
+              html: '<xtrm-card-description length="3"></xtrm-card-description>',
+              height: Infinity,
+              importance: 2
+            },{
+              html: '<xtrm-card-description></xtrm-card-description>',
+              height: Infinity,
+              importance: 0
+            },{
+              html: '<xtrm-card-description></xtrm-card-description>',
+              height: Infinity,
+              importance: 5
+            },{
+              html: '<xtrm-card-description></xtrm-card-description>',
+              height: Infinity,
+              importance: 5
+            },{
+              html: '<xtrm-card-description length="2"></xtrm-card-description>',
+              height: Infinity,
+              importance: 1
+            }];
+          },
+          readOnly: true,
+
+        }
+      },
+
+      observers: ['_reorderColumns(cards.*, columns)'],
+
+      _reorderColumns: function (cardSplices, columnCount) {
+        var array = [];
+        for (let i=0; i<this.columns; i++) {
+          array[i] = [];
+        }
+        var cards = this.cards || [];
+        let column = 0;
+        for (let i=0; i<cards.length; i++) {
+          array[column].push(cards[i]);
+          column = column < this.columns - 1 ? column + 1 : 0;
+        }
+        this._set_pseudoColumnArray(array);
+      },
+
+      attached: function () {
+        window.addEventListener('resize', this._resize.bind(this));
+      },
+
+      detached: function () {
+        window.removeEventListener('resize', this._resize.bind(this));
+      },
+
+      _resize: function () {
+        this.calculateColumns();
+      },
+
+      calculateColumns: function () {
+        var width = screen.width * 0.8;
+        var columns = Number.parseInt(width / DEFAULT_CARD_WIDTH);
+        this._setColumns(columns);
+        console.log(this.columns);
+        return columns;
+      },
+
+      //has to be called when element gets visible
+      visible: function () {
+        //todo set to location specific image
+        console.log("xtrm-location-info visible");
+        this.fire('setBackgroundImage', {image: 'src/images/location.jpg'});
+      }
+    });
+  </script>
+</dom-module>

@@ -18,6 +18,14 @@
         overflow: hidden;
       }
 
+      :host.search #searchInput {
+        /*noinspection CssInvalidFunction*/
+        transform: translate(0, calc(-50vh + 50% + 8px));
+      }
+      :host.search #suggestions {
+        transform: translate(0, calc(100% + 100px));
+      }
+
       paper-icon-button:hover {
         color: var(--primary-color);
       }
@@ -46,6 +54,7 @@
         --paper-input-container-color: #fff;
         --paper-input-container-focus-color: var(--primary-color);
         --paper-input-container-input-color: #fff;
+        transition: transform ease 0.7s;
       }
 
       #suggestions {
@@ -53,6 +62,7 @@
         height: 200px;
         width: 100%;
         background: rgba(255, 255, 255, 0.35);
+        transition: transform ease-out 0.7s;
       }
 
       #suggestions paper-icon-button {
@@ -91,19 +101,19 @@
     </style>
     <header></header>
     <div id="search">
-      <paper-input id="searchInput" label="Find it..." no-label-float>
-        <paper-icon-button suffix icon="search"></paper-icon-button>
+      <paper-input id="searchInput" label="Find it..." no-label-float on-input="animateToSearchPage">
+        <paper-icon-button suffix icon="search" on-tap="animateToSearchPage"></paper-icon-button>
       </paper-input>
     </div>
-    <div id="suggestions">
+    <div id="suggestions" inert>
       <paper-icon-button style="left: 0;" icon="chevron-left"></paper-icon-button>
       <div id="scrollContainer">
         <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="23"
                             weather="cloudy"></xtrm-location-card>
         <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="14"
-                            weather="sunny"></xtrm-location-card>
+                            weather="partly_cloudy"></xtrm-location-card>
         <xtrm-location-card name="Tegelberg" picture="../../src/images/location.jpg" id="90"
-                            weather="cloudy"></xtrm-location-card>
+                            weather="mainly_cloudy"></xtrm-location-card>
       </div>
       <paper-icon-button style="right: 0;" icon="chevron-right"></paper-icon-button>
     </div>
@@ -126,9 +136,19 @@
 
       //has to be called when element gets visible
       visible: function () {
-        //todo set to location specific image
+        this.$.suggestions.removeAttribute('inert');
+        this.classList.remove('search');
+        //TODO: set to location specific image
         console.log("xtrm-home visible");
         this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
+      },
+
+      animateToSearchPage: function () {
+        this.$.suggestions.setAttribute('inert', true);
+        this.classList.add('search');
+        window.setTimeout(() => {
+          this.fire('setPage', {page: 'search'});
+        }, 700);
       }
     });
   </script>
