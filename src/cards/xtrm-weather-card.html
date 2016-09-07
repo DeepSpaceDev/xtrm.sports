@@ -1,0 +1,111 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../images/weather-icons.html">
+
+<dom-module id="xtrm-weather-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+        background: rgba(255, 255, 255, 0.8);
+        width: calc(100% - 16px);
+        margin: 8px;
+      }
+      .container {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+      .container:after {
+        padding-top: 100%;
+        display: block;
+        content: '';
+      }
+      .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .title {
+        padding: 8px;
+        color: var(--primary-color);
+        font-weight: bold;
+        text-align: center;
+      }
+      .today {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .today .coarseInfos {
+        flex: 1;
+        display: flex;
+        font-size: 80px;
+      }
+      .today .coarseInfos iron-icon {
+        width: 114px;
+        height: 114px;
+      }
+      .today .coarseInfos .side {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .today .detailInfos {
+        display: flex;
+
+      }
+      .today .detailInfos span {
+        flex: 1 1 auto;
+        text-align: center;
+      }
+      .today .detailInfos iron-icon {
+        width: 48px;
+        height: 48px;
+      }
+      .forecast {
+        height: 90px;
+      }
+    </style>
+    <div class="container">
+      <div class="content">
+        <div class="title">Weather</div>
+        <div class="today">
+          <div class="coarseInfos">
+            <div class="side">17°</div>
+            <div class="side"><iron-icon icon="weather:sunny"></iron-icon></div>
+          </div>
+          <div class="detailInfos">
+            <span><iron-icon icon="weather:rainfall"></iron-icon> 0%</span>
+            <span><iron-icon icon="weather:humidity"></iron-icon> 87%</span>
+            <span><iron-icon icon="weather:wind"></iron-icon> 6 km/h</span>
+          </div>
+        </div>
+        <div class="forecast"></div>
+      </div>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-weather-card',
+
+        properties: {},
+
+        attached: function () {
+        }
+
+      });
+    })();
+  </script>
+</dom-module>
