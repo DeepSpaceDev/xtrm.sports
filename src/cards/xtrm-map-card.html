@@ -1,5 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../bower_components/google-map/google-map.html">
+
+<link rel="import" href="../../bower_components/iron-icons/maps-icons.html">
+
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 <dom-module id="xtrm-map-card">
   <template>
@@ -8,17 +13,6 @@
         display: block;
         width: 100%;
         margin: 8px;
-      }
-      .title {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 8px;
-        background: rgba(255, 255, 255, 0.8);
-        color: var(--primary-color);
-        font-weight: bold;
-        text-align: center;
       }
       .container {
         position: relative;
@@ -31,6 +25,12 @@
         display: block;
         content: '';
       }
+      paper-icon-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+      }
       google-map {
         position: absolute;
         top: 0;
@@ -38,11 +38,26 @@
         right: 0;
         left: 0;
       }
+      .title {
+        /* TODO: Generalise card styles, maybe in a custom element */
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 8px;
+        height: calc(40px - 16px);
+        line-height: calc(40px - 16px);
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--primary-color);
+        font-weight: bold;
+        text-align: center;
+      }
     </style>
     <div class="container">
+      <paper-icon-button icon="create" alt="Edit markers" on-tap="editMarkers"></paper-icon-button>
       <google-map latitude="[[lat]]" longitude="[[lng]]" map-type="hybrid" disable-zoom disable-map-type-control fit-to-markers api-key="AIzaSyCfK2eyhOEa0Ir5R5sG2HFTwagLWna6WdI">
         <google-map-marker latitude="[[lat]]" longitude="[[lng]]"></google-map-marker>
-        <google-map-marker latitude="[[lat_parking]]" longitude="[[lng_parking]]"></google-map-marker>
+        <google-map-marker latitude="[[lat_parking]]" longitude="[[lng_parking]]" icon="maps:local-parking"></google-map-marker>
       </google-map>
       <div class="title"><span>[[country]]</span> - <span>[[region]]</span></div>
     </div>
@@ -63,7 +78,8 @@
           lng_parking: Number
         },
 
-        attached: function () {
+        editMarkers: function () {
+          //TODO: Make a suggestion for new marker posititon
         }
 
       });

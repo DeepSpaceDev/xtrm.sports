@@ -4,49 +4,36 @@
   <template>
     <style>
       :host {
-        display: block;
+        position: relative;
+        display: flex;
+        flex-direction: column;
         background: rgba(255, 255, 255, 0.8);
         width: calc(100% - 16px);
         margin: 8px;
       }
-      .container {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-      .container:after {
-        padding-top: 100%;
-        display: block;
-        content: '';
-      }
-      .content {
+      paper-icon-button {
         position: absolute;
         top: 0;
-        left: 0;
         right: 0;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
+        z-index: 1;
       }
       .title {
         padding: 8px;
         color: var(--primary-color);
+        height: calc(40px - 16px);
+        line-height: calc(40px - 16px);
         font-weight: bold;
         text-align: center;
       }
       iron-image {
         flex: 1;
         width: 100%;
-        height: 100%;
+        --iron-image-width: 100%;
       }
     </style>
-    <div class="container">
-      <div class="content">
-        <div class="title">Topography</div>
-        <iron-image src="../images/topo.jpg" sizing="cover" position="5px"></iron-image>
-      </div>
-    </div>
+    <paper-icon-button icon="create" alt="Edit Topography" on-tap="editTopo"></paper-icon-button>
+    <div class="title">Topography</div>
+    <iron-image src="../images/topo.jpg" width="100%" height="auto"></iron-image>
   </template>
   <script>
     (function () {
@@ -57,7 +44,8 @@
 
         properties: {},
 
-        attached: function () {
+        editTopo: function () {
+          //TODO: Make a suggestion for the topo
         }
 
       });
