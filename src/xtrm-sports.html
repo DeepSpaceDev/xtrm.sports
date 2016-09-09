@@ -129,6 +129,8 @@
         var href = e.detail.page;
         // Debug if you want to subroute on the page, but already are on a subroute
         if (!isValidURL(href)) {
+          if (href[0] === '/')
+            href = href.substr(1);
           href = location.origin + '/' + href;
         }
         console.log(href);
