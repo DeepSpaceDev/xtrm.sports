@@ -1,6 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
+
 <link rel="import" href="xtrm-page-behavior.html">
+<link rel="import" href="../xtrm-loader.html">
+<link rel="import" href="../xtrm-search-item.html">
 
 <dom-module id="xtrm-search">
   <template>
@@ -10,6 +14,7 @@
         flex-direction: column;
         align-items: center;
       }
+
       #searchInput {
         /* TODO: group following styles and styles for search in `xtrm-home` in a CSS variable */
         width: 550px;
@@ -26,6 +31,19 @@
           height: 3px;
         };
       }
+
+      paper-spinner-lite {
+        --paper-spinner-color: var(--primary-color);
+      }
+
+      .results {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        overflow-y: auto;
+      }
     </style>
     <app-route
         route="{{route}}"
@@ -35,11 +53,170 @@
     <paper-input id="searchInput" label="Find it..." no-label-float on-input="search" value="{{searchQuery}}" autofocus>
       <paper-icon-button suffix icon="search" on-tap="search"></paper-icon-button>
     </paper-input>
+    <xtrm-loader alt="Loading locations" active="[[loading]]"></xtrm-loader>
+    <div class="results">
+      <template is="dom-repeat" items="[[results]]">
+        <xtrm-search-item data="[[item]]"></xtrm-search-item>
+      </template>
+    </div>
   </template>
   <script>
     (function () {
       'use strict';
 
+      var loading = 0;
+
+      var dump_data = [
+        {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }, {
+          id: 5,
+          name: 'Tegelberg Klettersteig',
+          discipline: 'via ferrata',
+          country: 'Germany',
+          region: 'Bavaria',
+          suitability: 2
+        }];
+      var loadingTimeout;
+      //TODO: search icon here and in `xtrm-home` color white
       Polymer({
         is: 'xtrm-search',
 
@@ -49,18 +226,28 @@
           route: Object,
           data: Object,
           searchQuery: {
-            type: String, 
+            type: String,
             value: ''
           },
           isVisible: {
             type: Boolean,
             value: false
+          },
+          loading: {
+            type: Boolean,
+            value: true
+          },
+          results: {
+            type: Array,
+            value: function () {
+              return []
+            }
           }
         },
 
         observers: [
-            '_dataChanged(data.*)',
-            '_updateQuery(isVisible, searchQuery)'
+          '_dataChanged(data.*)',
+          '_updateQuery(isVisible, searchQuery)'
         ],
 
         visible: function () {
@@ -77,6 +264,18 @@
           if (!isVisible) return;
           //TODO: replace spaces in URI with `+` instead of standard `%20`
           history.replaceState(null, null, `/search/${encodeURI(query)}`);
+          if (!query) return;
+          this.loading = true;
+          this.results = [];
+          //TODO-dennis: replace with actual search request
+          // Test request
+          if (loadingTimeout) window.clearTimeout(loadingTimeout);
+          loadingTimeout = window.setTimeout(() => {
+            loading++;
+            console.log(loading);
+            this.loading = false;
+            this.results = dump_data;
+          }, 500);
         }
 
       });

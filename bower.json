@@ -11,7 +11,8 @@
     "iron-pages": "^1.0.8",
     "paper-dialog-scrollable": "^1.1.5",
     "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#^1.1.7",
-    "google-map": "GoogleWebComponents/google-map#^1.1.11"
+    "google-map": "GoogleWebComponents/google-map#^1.1.11",
+    "paper-spinner": "^1.2.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

@@ -1,0 +1,73 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
+
+<dom-module id="xtrm-search-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: calc(550px - 16px);
+        margin: 16px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+      }
+      :host:focus {
+        outline-color: var(--primary-color);
+      }
+      .line {
+        display: flex;
+        justify-content: space-between;
+      }
+      .line.firstline {
+        font-size: 20px;
+      }
+      .line.secondline {
+        color: var(--secondary-text-color);
+      }
+    </style>
+    <div class="line firstline">
+      <div>[[data.name]]</div>
+      <div>[[data.discipline]]</div>
+    </div>
+    <div class="line secondline">
+      <span>[[data.country]], [[data.region]]</span>
+      <span>Difficulty: [[data.suitability]]</span>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-search-item',
+
+        hostAttributes: {
+          role: 'link',
+          tabindex: 0
+        },
+
+        behaviors: [Polymer.IronA11yKeysBehavior],
+
+        properties: {
+          data: Object
+        },
+
+        listeners: {
+          'tap': '_onTap'
+        },
+
+        keyBindings: {
+          'enter': '_onTap'
+        },
+
+        _onTap: function () {
+          this.fire('setPage', {
+            page: `location/${this.data.id}`
+          });
+        }
+      });
+    })();
+  </script>
+</dom-module>
