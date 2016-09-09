@@ -1,0 +1,57 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<dom-module id="xtrm-description-card">
+  <template>
+    <style>
+      :host {
+        position: relative;
+        display: block;
+        background: rgba(255, 255, 255, 0.8);
+        width: calc(100% - 16px);
+        margin: 8px;
+      }
+
+      .description {
+        flex: 1;
+        padding: 16px;
+      }
+
+      paper-icon-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+      }
+
+      .title {
+        padding: 8px;
+        color: var(--primary-color);
+        height: calc(40px - 16px);
+        line-height: calc(40px - 16px);
+        font-weight: bold;
+        text-align: center;
+      }
+    </style>
+    <paper-icon-button icon="create" alt="Edit Topography" on-tap="editDescription"></paper-icon-button>
+    <div class="title">Description</div>
+    <div class="description">
+      <content></content>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-description-card',
+
+        properties: {},
+
+        editDescription: function () {
+          //TODO: make a suggestion for the description
+        }
+
+      });
+    })();
+  </script>
+</dom-module>
