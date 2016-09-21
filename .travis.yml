@@ -13,8 +13,8 @@ addons:
 before_script:
 - npm install -g bower polylint web-component-tester
 - bower install
-- polylint
 script:
+- polylint
 - xvfb-run wct --skip-plugin sauce
 - if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then wct --skip-plugin local; fi
 env:
