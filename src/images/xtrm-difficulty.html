@@ -1,0 +1,215 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+
+<dom-module id="xtrm-difficulty">
+  <template>
+    <style>
+      :host {
+        contain: strict;
+        display: inline-block;
+        width: 64px;
+        height: 64px;
+        /*background: rgba(255, 255, 255, 0.8);*/
+        border-radius: 20px;
+        --needle-color: #aeaeae;
+        --indicator-background-color: #e8e8e8;
+        --indicator-color-100: var(--google-red-500);
+        --indicator-color-50: var(--google-yellow-500);
+        --indicator-color-0: var(--google-green-500);
+      }
+      svg {
+        width: 100%;
+        height: 100%;
+        stroke: #000;
+        fill: none;
+      }
+      svg .outerCircle {
+        stroke-width: 1px;
+      }
+      svg .innerCircle {
+        stroke-width: 5px;
+      }
+      svg #indicatorBackground {
+        stroke: var(--indicator-background-color);
+      }
+      svg #indicator {
+        stroke: var(--indicator-color-0);
+      }
+      svg #indicator .outerCircle {
+        stroke-dasharray: 0 63;
+      }
+      svg #indicator .innerCircle {
+        stroke-dasharray: 0 39;
+      }
+      svg #needle {
+        stroke: var(--needle-color);
+        stroke-linecap: round;
+        fill: var(--needle-color);
+        transform: rotate(90deg);
+        transition: transform .3s ease;
+        will-change: transform;
+      }
+      svg #needle .seperator {
+        stroke: #fff;
+      }
+    </style>
+    <svg viewBox="0 0 54 45" role="img" aria-label="[[title]] [[percent]]">
+      <title>[[title]]</title>
+      <desc>[[percent]]</desc>
+      <g id="indicatorBackground">
+        <path class="outerCircle" d="M7,30 a20,20 0 0,1 40,0"></path>
+        <path class="innerCircle" d="M14.5,30 a12.5,12.5 0 0,1 25,0"></path>
+      </g>
+      <g id="indicator">
+        <path class="outerCircle" d="M7,30 a20,20 0 0,1 40,0"></path>
+        <path class="innerCircle" d="M14.5,30 a12.5,12.5 0 0,1 25,0"></path>
+      </g>
+      <g id="needle">
+        <line class="seperator" x1="27" y1="29.1" x2="2" y2="29.1"></line>
+        <line x1="27" y1="30" x2="2" y2="30"></line>
+        <line class="seperator" x1="27" y1="30.9" x2="2" y2="30.9"></line>
+        <circle cx="27" cy="30" r="2"></circle>
+      </g>
+    </svg>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+      //TODO: fix problem with intial value and transform-origin on the needle
+      Polymer({
+        is: 'xtrm-difficulty',
+
+        properties: {
+          title: {
+            type: String,
+            value: 'Difficulty'
+          },
+          percent: {
+            type: Number,
+            value: 0,
+            observer: '_percentChanged'
+          }
+        },
+
+        attached: function () {
+          if (requestAnimationFrame in window)
+            window.requestAnimationFrame(function () {
+              this._percentChanged(this.percent)
+            }.bind(this));
+          else
+            window.setTimeout(function() {
+              this._percentChanged(this.percent)
+            }.bind(this) , 5000);
+
+        },
+
+        _percentChanged: function (percent) {
+          // Degbug if percent is greater than 100 or less than 0
+          if (percent < 0) percent = 0;
+          if (percent > 100) percent = 100;
+          // Get colored indicators
+          var outerCircle = this.$.indicator.querySelector('.outerCircle');
+          var innerCircle = this.$.indicator.querySelector('.innerCircle');
+          // Get radius of colored indicators
+          var outerRadius = this._getRadiusFromHalfCircle(outerCircle);
+          var innerRadius = this._getRadiusFromHalfCircle(innerCircle);
+          // Calculate gap for colored indicators
+          var outerStrokeGapWidth = Math.round(Math.PI * outerRadius);
+          var innerStrokeGapWidth = Math.round(Math.PI * innerRadius);
+          // Calculate stroke width for colored indicators
+          var outerStrokeWidth = (percent * outerStrokeGapWidth) / 100;
+          var innerStrokeWidth = (percent * innerStrokeGapWidth) / 100;
+          // Construct dash array for colored indicators
+          var outerDashArray = outerStrokeWidth + ' ' + outerStrokeGapWidth;
+          var innerDashArray = innerStrokeWidth + ' ' + innerStrokeGapWidth;
+          // Apply dash arrays
+          var oldOuterStrokeWidth = outerCircle.style.strokeDasharray.split(',')[0];
+          var oldInnerStrokeWidth = innerCircle.style.strokeDasharray.split(',')[0];
+
+          outerCircle.style.strokeDasharray = outerDashArray;
+          outerCircle.style.transition = '';
+          outerCircle.style.strokeDashoffset = outerStrokeWidth - oldOuterStrokeWidth;
+          outerCircle.style.transition = 'all ease .3s';
+          outerCircle.style.strokeDashoffset = 0;
+
+          innerCircle.style.strokeDasharray = innerDashArray;
+          innerCircle.style.transition = '';
+          innerCircle.style.strokeDashoffset = innerStrokeWidth - oldInnerStrokeWidth;
+          innerCircle.style.transition = 'all ease .3s';
+          innerCircle.style.strokeDashoffset = 0;
+
+          // Calulate color for colored indicators
+          // Color break points
+          var color0 = {r: 139, g: 195, b: 74};
+          var color50 = {r: 255, g: 235, b: 59};
+          var color100 = {r: 244, g: 67, b: 54};
+          // Falllback color
+          var color = '#2196F3';
+          if (percent === 0) {
+            color = this._getRGBColorString(color0.r, color0.g, color0.b);
+          } else if (percent < 50 && percent > 0) {
+            var c = this._calculateColorBetweenStops(color0, color50, percent);
+            color = this._getRGBColorString(c.r, c.g, c.b);
+          } else if (percent === 50) {
+            color = this._getRGBColorString(color50.r, color50.g, color50.b);
+          } else if (percent < 100 && percent > 50) {
+            var c = this._calculateColorBetweenStops(color50, color100, percent);
+            color = this._getRGBColorString(c.r, c.g, c.b);
+          } else if (percent === 100) {
+            color = this._getRGBColorString(color100.r, color100.g, color100.b);
+          }
+          var oldStroke = this.$.indicator.style.stroke;
+          /*this.$.indicator.animate([{
+            stroke: oldStroke
+          }, {
+            stroke: color
+          }], animationTiming);*/
+          this.$.indicator.style.stroke = color;
+          // Calculate and apply roation for needle
+          var needleRotation = (percent * 180) / 100;
+          var transform = 'rotate(' + needleRotation + 'deg)';
+          var oldTransform = this.$.needle.style.transform;
+          /*this.$.needle.animate([{
+            transform: oldTransform
+          }, {
+            transform: transform
+          }], animationTiming);*/
+          this.$.needle.style.transformOrigin = '';
+          this.$.needle.style.transformOrigin = '92.59% 50%';
+          this.$.needle.style.transform = '';
+          this.$.needle.style.transform = transform;
+        },
+
+        _calculateColorBetweenStops: function (color1, color2, percent) {
+          var steps = 50;
+          var relPercent = percent % steps;
+          var diffR = color2.r - color1.r;
+          var diffG = color2.g - color1.g;
+          var diffB = color2.b - color1.b;
+          var stepR = diffR / steps;
+          var stepG = diffG / steps;
+          var stepB = diffB / steps;
+          var colorR = color1.r + stepR * relPercent;
+          var colorG = color1.g + stepG * relPercent;
+          var colorB = color1.b + stepB * relPercent;
+
+          return {r: colorR, g: colorG, b: colorB};
+        },
+
+        _getRGBColorString: function (r, g, b) {
+          return 'rgb(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ')';
+        },
+
+        _getRadiusFromHalfCircle: function (halfCircle) {
+          var path = halfCircle.getAttribute('d');
+          var arcIndex = path.indexOf('a');
+          var radiusEndIndex = path.indexOf(',', arcIndex);
+          var substr = path.substring(arcIndex + 1, radiusEndIndex);
+          return Number.parseFloat(substr);
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

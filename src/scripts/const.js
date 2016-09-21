@@ -15,3 +15,5 @@ const BASE_URL = HTML_PROTOCOL + 'v2.xtrm-sports.com/';
 const DEFAULT_CARD_WIDTH = 350;
 
 const ACTION_LINK = 'link';
+
+const MAX_DIFFICULTY = 10;

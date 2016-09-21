@@ -1,4 +1,6 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-overlay-behavior/iron-overlay-behavior.html">
 
 <dom-module id="xtrm-drop-up-menu">
   <template>
@@ -74,23 +76,49 @@
           }
         },
 
+        attached: function () {
+          // document.addEventListener('click', this._closeIfOpened.bind(this), {passive: true});
+        },
+
+        dettached: function () {
+          // document.removeEventListener('click', this._closeIfOpened.bind(this), {passive: true});
+        },
+
+        _closeIfOpened: function () {
+          if (this.opened) {
+            console.log('close');
+          }
+        },
+
         open: function () {
           this.opened = true;
+          this._handleListeners(this.opened);
         },
 
         close: function () {
           this.opened = false;
+          this._handleListeners(this.opened);
         },
 
         toggle: function () {
           this.opened = !this.opened;
+          this._handleListeners(this.opened);
+        },
+
+        _handleListeners: function (opened) {
+          if (opened) {
+            document.addEventListener('click', this._closeIfOpened.bind(this), {passive: true});
+          } else {
+            document.removeEventListener('click', this._closeIfOpened.bind(this), {passive: true});
+          }
         },
 
         _openStateChanged: function (opened) {
-          if (opened)
+          if (opened){
             this.classList.add('opened');
-          else
+          } else {
             this.classList.remove('opened');
+          }
         },
 
         _itemTapped: function (e) {
@@ -103,7 +131,6 @@
           }
           this.close();
         }
-
       });
     })();
   </script>

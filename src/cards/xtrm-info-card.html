@@ -1,0 +1,125 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-icons/social-icons.html">
+<link rel="import" href="../../bower_components/iron-icons/image-icons.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../images/xtrm-difficulty.html">
+
+<dom-module id="xtrm-info-card">
+  <template>
+    <style>
+      :host {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.8);
+        width: calc(100% - 16px);
+        margin: 8px;
+      }
+      paper-icon-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 1;
+      }
+      .title {
+        padding: 8px;
+        color: var(--primary-color);
+        height: calc(40px - 16px);
+        line-height: calc(40px - 16px);
+        font-weight: bold;
+        text-align: center;
+      }
+      .content {
+        flex: 1;
+        display: flex;
+        padding: 0 8px;
+      }
+      .content > * {
+        flex: 1;
+      }
+      .altitude-container {
+        display: flex;
+        height: 100%;
+      }
+      .altitude-values {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      iron-icon {
+        height: 48px;
+        width: 48px;
+      }
+      iron-icon.falsy {
+        color: #9a9a9a;
+      }
+    </style>
+    <paper-icon-button icon="create" alt="Edit Info" on-tap="editInfo"></paper-icon-button>
+    <div class="title">Info</div>
+    <div class="content">
+      <span class="altitude-container">
+        <iron-icon icon="image:landscape"></iron-icon>
+        <span class="altitude-values">
+          <span>[[altitude_top]]m</span>
+          <span>[[altitude_bottom]]m</span>
+        </span>
+      </span>
+      <!-- TODO: replace with families icon -->
+      <iron-icon id="families" icon="social:group"></iron-icon>
+      <iron-icon id="groups" icon="social:group"></iron-icon>
+      <xtrm-difficulty percent="[[_calulateDifficultyPercent(difficulty)]]"></xtrm-difficulty>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+        is: 'xtrm-info-card',
+
+        properties: {
+          difficulty: Number,
+          altitude_top: Number,
+          altitude_bottom: Number,
+          groups: {
+            type: Boolean,
+            observer: '_groupsChanged',
+            value: false
+          },
+          families: {
+            type: Boolean,
+            observer: '_familiesChanged',
+            value: false
+          }
+        },
+
+        editInfo: function () {
+          //TODO: Make a suggestion for the info
+        },
+
+        _calulateDifficultyPercent: function (difficulty) {
+          return 100 * difficulty / MAX_DIFFICULTY;
+        },
+
+      _groupsChanged: function (groups) {
+        this._booleanIconChanged(this.$.groups, groups);
+      },
+
+        _familiesChanged: function (families) {
+          this._booleanIconChanged(this.$.families, families);
+        },
+
+        _booleanIconChanged: function (iconElem, value) {
+          if (value) {
+            iconElem.classList.remove('falsy');
+          } else {
+            iconElem.classList.add('falsy');
+          }
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

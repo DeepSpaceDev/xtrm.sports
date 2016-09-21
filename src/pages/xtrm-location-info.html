@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../cards/xtrm-description-card.html">
+<link rel="import" href="../cards/xtrm-info-card.html">
 <link rel="import" href="../cards/xtrm-map-card.html">
 <link rel="import" href="../cards/xtrm-topo-card.html">
 <link rel="import" href="../cards/xtrm-weather-card.html">
@@ -95,7 +96,11 @@
           type: Array,
           value: function () {
             return [{
-              html: '<xtrm-map-card country="Germany" region="Bavaria" lat="47.847771" lng="10.893343" lat_parking="47.848268" lng_parking="10.892686"></xtrm-map-card>',
+              html: '<xtrm-info-card difficulty="8" groups altitude_top="850" altitude_bottom="713"></xtrm-info-card>',
+              height: Infinity,
+              importance: 2
+            },{
+              html: '<xtrm-description-card>Wunderschön gelegener hochalpiner Klettergarten. Der Ausblick auf die umliegenden vergletscherten Dreitausender ist grandios. Die Routen sind kurz und sehr gut abgesichert.</xtrm-description-card>',
               height: Infinity,
               importance: 6
             },{
@@ -103,33 +108,13 @@
               height: Infinity,
               importance: 5
             },{
-              html: '<xtrm-description-card>Wunderschön gelegener hochalpiner Klettergarten. Der Ausblick auf die umliegenden vergletscherten Dreitausender ist grandios. Die Routen sind kurz und sehr gut abgesichert.</xtrm-description-card>',
+              html: '<xtrm-map-card country="Germany" region="Bavaria" lat="47.847771" lng="10.893343" lat_parking="47.848268" lng_parking="10.892686"></xtrm-map-card>',
               height: Infinity,
               importance: 6
-            },{
-              html: '<xtrm-card-description length="3"></xtrm-card-description>',
-              height: Infinity,
-              importance: 2
-            },{
-              html: '<xtrm-card-description></xtrm-card-description>',
-              height: Infinity,
-              importance: 0
             },{
               html: '<xtrm-topo-card></xtrm-topo-card>',
               height: Infinity,
               importance: 4
-            },{
-              html: '<xtrm-card-description></xtrm-card-description>',
-              height: Infinity,
-              importance: 5
-            },{
-              html: '<xtrm-card-description></xtrm-card-description>',
-              height: Infinity,
-              importance: 5
-            },{
-              html: '<xtrm-card-description length="2"></xtrm-card-description>',
-              height: Infinity,
-              importance: 1
             }];
           },
           readOnly: true,
@@ -141,12 +126,12 @@
 
       _reorderColumns: function (cardSplices, columnCount) {
         var array = [];
-        for (let i=0; i<this.columns; i++) {
+        for (var i=0; i<this.columns; i++) {
           array[i] = [];
         }
         var cards = this.cards || [];
-        let column = 0;
-        for (let i=0; i<cards.length; i++) {
+        var column = 0;
+        for (var i=0; i<cards.length; i++) {
           array[column].push(cards[i]);
           column = column < this.columns - 1 ? column + 1 : 0;
         }
