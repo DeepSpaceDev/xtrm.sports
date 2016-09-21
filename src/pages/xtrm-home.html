@@ -140,9 +140,9 @@
       animateToSearchPage: function () {
         this.$.suggestions.setAttribute('inert', true);
         this.classList.add('search');
-        window.setTimeout(() => {
-          this.fire('setPage', {page: `search/${this.$.searchInput.value}`});
-        }, 700);
+        window.setTimeout(function() {
+          this.fire('setPage', {page: 'search/' + this.$.searchInput.value});
+        }.bind(this), 700);
       }
     });
   </script>

@@ -103,10 +103,10 @@
             firstname: this.$.firstname.value
           })
         });
-        fetch(request).then(result => {
+        fetch(request).then(function(result) {
           if (result.ok)
             return result.json();
-        }).then(json => {
+        }).then(function(json) {
           if (json.success) {
             this.$.register.classList.add('hidden');
             //noinspection JSUnresolvedVariable
@@ -114,7 +114,7 @@
             this.$.dialog.notifyResize();
             this.loginWithEmail();
           }
-        });
+        }.bind(this));
       },
 
       loginWithEmail: function () {

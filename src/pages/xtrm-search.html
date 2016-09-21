@@ -263,19 +263,19 @@
         _updateQuery: function (isVisible, query) {
           if (!isVisible) return;
           //TODO: replace spaces in URI with `+` instead of standard `%20`
-          history.replaceState(null, null, `/search/${encodeURI(query)}`);
+          history.replaceState(null, null, '/search/' + encodeURI(query));
           if (!query) return;
           this.loading = true;
           this.results = [];
           //TODO-dennis: replace with actual search request
           // Test request
           if (loadingTimeout) window.clearTimeout(loadingTimeout);
-          loadingTimeout = window.setTimeout(() => {
+          loadingTimeout = window.setTimeout(function() {
             loading++;
             console.log(loading);
             this.loading = false;
             this.results = dump_data;
-          }, 500);
+          }.bind(this), 500);
         }
 
       });

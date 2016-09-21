@@ -59,23 +59,24 @@ Page for confirming the email login
             token: token
           })
         });
+        var that = this;
         var startingTime = new Date();
-        fetch(request).then(result => {
+        fetch(request).then(function(result) {
           if (result.ok)
             return result.json();
-        }).then(json => {
+        }.bind(that)).then(function(json) {
           var endingTime = new Date();
           var timeDiff = endingTime - startingTime;
-          window.setTimeout(() => {
+          window.setTimeout(function() {
             if (json.success) {
               //noinspection JSUnusedGlobalSymbols
-              this.status = `Your log in ${json.browser} on ${json.os} was successful :)`;
+              this.status = 'Your log in ' + json.browser + ' on ' + json.os + ' was successful :)';
             } else {
               //noinspection JSUnusedGlobalSymbols
               this.status = json.error;
             }
-          }, CONFIRM_TIMEOUT - timeDiff);
-        });
+          }.bind(that), CONFIRM_TIMEOUT - timeDiff);
+        }.bind(that));
       }
     });
   </script>

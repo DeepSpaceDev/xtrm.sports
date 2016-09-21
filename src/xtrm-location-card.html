@@ -112,11 +112,11 @@
       },
 
       _changeToLocationPage: function () {
-        this.fire('setPage', {page: `location/${this.id}`});
+        this.fire('setPage', {page: 'location/'+ this.id});
       },
 
       _pictureChanged: function (picture) {
-        this.$.image.style['background-image'] = `url(${picture})`;
+        this.$.image.style['background-image'] = 'url(' + picture + ')';
       },
 
       _onFocus: function () {
