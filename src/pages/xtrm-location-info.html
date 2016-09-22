@@ -15,6 +15,7 @@
     <style>
       :host {
         color: #5b5b5b;
+        position: relative;
       }
       div.container {
         display: flex;
@@ -46,6 +47,32 @@
         overflow-x: hidden;
         overflow-y: auto;
       }
+      .notFound {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 25%;
+        left: 25%;
+        bottom: 25%;
+        right: 25%;
+        padding-top: 40px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.8);
+        text-align: center;
+      }
+      .notFound div {
+        flex: 1;
+        display: flex;
+        align-self: center;
+        align-items: center;
+        font-size: 80px;
+      }
+      .notFound xtrm-button {
+        font-size: 50px;
+      }
+      .notFound.hidden {
+        display: none;
+      }
     </style>
     <app-route
         route="{{route}}"
@@ -62,6 +89,10 @@
           <xtrm-column-handler items="[[item]]"></xtrm-column-handler>
         </template>
       </div>
+    </div>
+    <div id="notFound" class="notFound hidden">
+      <div>Location not found</div>
+      <xtrm-button on-tap="backToHome">Go back to home</xtrm-button>
     </div>
   </template>
   <script>
@@ -137,6 +168,12 @@
         this.calculateColumns();
       },
 
+      backToHome: function () {
+        this.fire('setPage', {
+          page: '/'
+        })
+      },
+
       calculateColumns: function () {
         var width = screen.width * 0.8;
         var columns = Number.parseInt(width / DEFAULT_CARD_WIDTH);
@@ -146,8 +183,9 @@
 
       _updateLocation: function (visible) {
         if (!visible || !this.data || !this.data.location_id) return;
-
+        // Setup: Reset states and get all neccessary info
         var id = this.data.location_id;
+        this.$.notFound.classList.add('hidden');
 
         fetch(API_GET_LOCATION_URL + '?id=' + id).then(function(result) {
           if (result.ok)
@@ -155,29 +193,35 @@
         }.bind(this)).then(function(json) {
           console.log(json);
 
-          this._setName(json.name);
-          this._setDiscipline(json.discipline);
+          if (json.success) {
+            this._setName(json.name);
+            this._setDiscipline(json.discipline);
 
-          var cards = [];
-          //TODO-dennis: rename to json.difficulty as the api changes
-          var infoCard = getInfoCardObject(
-              json.suitability, json.groups, json.families, json.altitude_top, json.altitude_bottom);
-          if (infoCard != null) cards.push(infoCard);
+            var cards = [];
+            //TODO-dennis: rename to json.difficulty as the api changes
+            var infoCard = getInfoCardObject(
+                json.difficulty, json.groups, json.families, json.altitude_top, json.altitude_bottom);
+            if (infoCard != null) cards.push(infoCard);
 
-          var descriptionCard = getDescriptionCardObject(json.description);
-          if (descriptionCard != null) cards.push(descriptionCard);
+            var descriptionCard = getDescriptionCardObject(json.description);
+            if (descriptionCard != null) cards.push(descriptionCard);
 
-          var weatherCard = getWeatherCardObject();
-          if (weatherCard != null) cards.push(weatherCard);
+            var weatherCard = getWeatherCardObject();
+            if (weatherCard != null) cards.push(weatherCard);
 
-          var mapCard = getMapCardObject(json.country, json.region,
-              json.location.lat, json.location.lng, json.location_parking.lat, json.location_parking.lng);
-          if (mapCard != null) cards.push(mapCard);
+            var mapCard = getMapCardObject(json.country, json.region,
+                json.location.lat, json.location.lng, json.location_parking.lat, json.location_parking.lng);
+            if (mapCard != null) cards.push(mapCard);
 
-          var topoCard = getDescriptionCardObject(json.topo);
-          if (topoCard != null) cards.push(topoCard);
+            var topoCard = getDescriptionCardObject(json.topo);
+            if (topoCard != null) cards.push(topoCard);
 
-          this._setCards(cards);
+            this._setCards(cards);
+          } else {
+            if (json.error_code === 404) {
+              this.$.notFound.classList.remove('hidden');
+            }
+          }
         }.bind(this));
       },
 
