@@ -46,10 +46,12 @@ Page for confirming the email login
         }
       },
 
-      observers: ['_dataChanged(data.*)'],
+      observers: [
+          '_dataChanged(visible, data.*)'
+      ],
 
-      _dataChanged: function () {
-        if (!this.data || !this.data.token) return;
+      _dataChanged: function (visible) {
+        if (!visible || !this.data || !this.data.token) return;
         var token = this.data.token;
         var request = new Request(API_CONFIRM_URL, {
           method: 'POST',

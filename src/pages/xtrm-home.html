@@ -129,11 +129,10 @@
       properties: {},
 
       //has to be called when element gets visible
-      visible: function () {
+      _gotVisible: function () {
         this.$.suggestions.removeAttribute('inert');
         this.classList.remove('search');
         //TODO: set to location specific image
-        console.log("xtrm-home visible");
         this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
       },
 

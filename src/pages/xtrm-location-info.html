@@ -43,9 +43,15 @@
         width: 100%;
         flex: 1 1 auto;
         padding-top: 45vh;
+        overflow-x: hidden;
         overflow-y: auto;
       }
     </style>
+    <app-route
+        route="{{route}}"
+        pattern="/:location_id"
+        data="{{data}}">
+    </app-route>
     <div id="container" class="container">
       <header>
         <div class="name">[[name]]</div>
@@ -66,7 +72,8 @@
       behaviors: [XtrmPageBehavior],
 
       properties: {
-        location_id: Number,
+        route: Object,
+        data: Object,
         columns: {
           type: Number,
           value: function () {
@@ -77,12 +84,12 @@
         },
         name: {
           type: String,
-          value: 'Tegelberg Klettersteig',
+          value: '',
           readOnly: true
         },
         discipline: {
           type: String,
-          value: 'via ferrata',
+          value: '',
           readOnly: true
         },
         _pseudoColumnArray: {
@@ -94,35 +101,15 @@
         },
         cards: {
           type: Array,
-          value: function () {
-            return [{
-              html: '<xtrm-info-card difficulty="8" groups altitude_top="850" altitude_bottom="713"></xtrm-info-card>',
-              height: Infinity,
-              importance: 2
-            },{
-              html: '<xtrm-description-card>Wunderschön gelegener hochalpiner Klettergarten. Der Ausblick auf die umliegenden vergletscherten Dreitausender ist grandios. Die Routen sind kurz und sehr gut abgesichert.</xtrm-description-card>',
-              height: Infinity,
-              importance: 6
-            },{
-              html: '<xtrm-weather-card></xtrm-weather-card>',
-              height: Infinity,
-              importance: 5
-            },{
-              html: '<xtrm-map-card country="Germany" region="Bavaria" lat="47.847771" lng="10.893343" lat_parking="47.848268" lng_parking="10.892686"></xtrm-map-card>',
-              height: Infinity,
-              importance: 6
-            },{
-              html: '<xtrm-topo-card></xtrm-topo-card>',
-              height: Infinity,
-              importance: 4
-            }];
-          },
+          value: function () { return []; },
           readOnly: true,
-
         }
       },
 
-      observers: ['_reorderColumns(cards.*, columns)'],
+      observers: [
+          '_reorderColumns(cards.*, columns)',
+          '_updateLocation(visible, data.*)'
+      ],
 
       _reorderColumns: function (cardSplices, columnCount) {
         var array = [];
@@ -154,14 +141,49 @@
         var width = screen.width * 0.8;
         var columns = Number.parseInt(width / DEFAULT_CARD_WIDTH);
         this._setColumns(columns);
-        console.log(this.columns);
         return columns;
       },
 
+      _updateLocation: function (visible) {
+        if (!visible || !this.data || !this.data.location_id) return;
+
+        var id = this.data.location_id;
+
+        fetch(API_GET_LOCATION_URL + '?id=' + id).then(function(result) {
+          if (result.ok)
+            return result.json();
+        }.bind(this)).then(function(json) {
+          console.log(json);
+
+          this._setName(json.name);
+          this._setDiscipline(json.discipline);
+
+          var cards = [];
+          //TODO-dennis: rename to json.difficulty as the api changes
+          var infoCard = getInfoCardObject(
+              json.suitability, json.groups, json.families, json.altitude_top, json.altitude_bottom);
+          if (infoCard != null) cards.push(infoCard);
+
+          var descriptionCard = getDescriptionCardObject(json.description);
+          if (descriptionCard != null) cards.push(descriptionCard);
+
+          var weatherCard = getWeatherCardObject();
+          if (weatherCard != null) cards.push(weatherCard);
+
+          var mapCard = getMapCardObject(json.country, json.region,
+              json.location.lat, json.location.lng, json.location_parking.lat, json.location_parking.lng);
+          if (mapCard != null) cards.push(mapCard);
+
+          var topoCard = getDescriptionCardObject(json.topo);
+          if (topoCard != null) cards.push(topoCard);
+
+          this._setCards(cards);
+        }.bind(this));
+      },
+
       //has to be called when element gets visible
-      visible: function () {
+      _gotVisible: function () {
         //todo set to location specific image
-        console.log("xtrm-location-info visible");
         this.fire('setBackgroundImage', {image: 'src/images/location.jpg'});
       }
     });

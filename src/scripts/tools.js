@@ -14,3 +14,50 @@ function isValidURL(str) {
     '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locater
   return pattern.test(str);
 }
+
+function getInfoCardObject(difficulty, groups, families, altitude_top, altitude_bottom) {
+  'use strict';
+  return {
+    html: `<xtrm-info-card difficulty="${difficulty}" ${groups ? 'groups' : ''} ${families ? 'families' : ''} altitude_top="${altitude_top}" altitude_bottom="${altitude_bottom}"></xtrm-info-card>`,
+    height: 120,
+    importance: 2
+  };
+}
+
+function getDescriptionCardObject(description) {
+  'use strict';
+  if (!description || description.length === 0) { return; }
+  return {
+    html: `<xtrm-description-card>${description}</xtrm-description-card>`,
+    height: Infinity,
+    importance: 6
+  };
+}
+
+function getWeatherCardObject() {
+  'use strict';
+  return {
+    html: `<xtrm-weather-card></xtrm-weather-card>`,
+    height: Number.NaN,
+    importance: 5
+  };
+}
+
+function getMapCardObject(country, region, lat, lng, lat_parking, lng_parking) {
+  'use strict';
+  return {
+    html: `<xtrm-map-card country="${country}" region="${region}" lat="${lat}" lng="${lng}" lat_parking="${lat_parking}" lng_parking="${lng_parking}"></xtrm-map-card>`,
+    height: Number.NaN,
+    importance: 6
+  };
+}
+
+function getTopoCardObject(topo) {
+  'use strict';
+  if (!topo || topo.length === 0) { return; }
+  return {
+    html: `<xtrm-topo-card url="${topo}"></xtrm-topo-card>`,
+    height: Infinity,
+    importance: 4
+  };
+}

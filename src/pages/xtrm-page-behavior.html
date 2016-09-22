@@ -1,9 +1,27 @@
+<!--suppress JSUnresolvedFunction, JSUnresolvedVariable -->
 <script>
   /// <reference path="polymer.d.ts"/>
   XtrmPageBehavior = {
 
-    visible: function () {
-      this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
+    properties: {
+      visible: {
+        type: Boolean,
+        value: false,
+        readOnly: true
+      }
+    },
+
+    updateVisiblity: function (visible) {
+      // Update visibility
+      this._setVisible(visible);
+      if (visible) {
+        if ('_gotVisible' in this) {
+          this._gotVisible();
+        } else {
+          // Fallback if `_gotVisible` is not defined
+          this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
+        }
+      }
     }
 
   };

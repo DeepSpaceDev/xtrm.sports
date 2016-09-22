@@ -143,11 +143,12 @@
 
       _pageChanged: function () {
         //noinspection JSUnresolvedVariable
-        var item = this.$.pageSelector.selectedItem;
-        console.warn("page changed");
-        console.warn(item);
-        console.warn(this.pageSelected);
-        item.visible();
+        var pageItems = this.$.pageSelector.querySelectorAll('[page]');
+        var selectedItem = this.$.pageSelector.selectedItem;
+        for (var i=0; i<pageItems.length; i++) {
+          var item = pageItems[i];
+          item.updateVisiblity(item === selectedItem);
+        }
       }
     });
   </script>

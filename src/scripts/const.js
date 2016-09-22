@@ -8,6 +8,8 @@ const API_LOGIN_URL = WS_PROTOCOL + API_BASE_URL + 'login/';
 const API_CONFIRM_URL = HTML_PROTOCOL + API_BASE_URL + 'confirm/';
 const CONFIRM_TIMEOUT = 2000;
 
+const API_GET_LOCATION_URL = HTML_PROTOCOL + API_BASE_URL + 'get/';
+
 const API_REGISTER_URL = HTML_PROTOCOL + API_BASE_URL + 'register/';
 
 const BASE_URL = HTML_PROTOCOL + 'v2.xtrm-sports.com/';

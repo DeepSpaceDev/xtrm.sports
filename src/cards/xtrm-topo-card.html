@@ -33,7 +33,7 @@
     </style>
     <paper-icon-button icon="create" alt="Edit Topography" on-tap="editTopo"></paper-icon-button>
     <div class="title">Topography</div>
-    <iron-image src="../images/topo.jpg" width="100%" height="auto"></iron-image>
+    <iron-image src="[[url]]" width="100%" height="auto"></iron-image>
   </template>
   <script>
     (function () {
@@ -42,7 +42,9 @@
       Polymer({
         is: 'xtrm-topo-card',
 
-        properties: {},
+        properties: {
+          url: String
+        },
 
         editTopo: function () {
           //TODO: Make a suggestion for the topo

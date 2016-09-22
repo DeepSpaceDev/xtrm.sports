@@ -229,10 +229,6 @@
             type: String,
             value: ''
           },
-          isVisible: {
-            type: Boolean,
-            value: false
-          },
           loading: {
             type: Boolean,
             value: true
@@ -247,11 +243,10 @@
 
         observers: [
           '_dataChanged(data.*)',
-          '_updateQuery(isVisible, searchQuery)'
+          '_updateQuery(visible, searchQuery)'
         ],
 
-        visible: function () {
-          this.isVisible = true;
+        _gotVisible: function () {
           this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
         },
 
