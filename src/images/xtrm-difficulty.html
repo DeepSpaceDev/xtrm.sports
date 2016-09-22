@@ -54,7 +54,7 @@
         stroke: #fff;
       }
     </style>
-    <svg viewBox="0 0 54 45" role="img" aria-label$="[[title]] [[percent]]">
+    <svg viewBox="0 0 54 45" role="img" aria-label$="[[_concatLabel(title, percent)]]">
       <title>[[title]]</title>
       <desc>[[percent]]</desc>
       <g id="indicatorBackground">
@@ -102,6 +102,10 @@
               this._percentChanged(this.percent)
             }.bind(this) , 5000);
 
+        },
+
+        _concatLabel: function (title, label) {
+          return title + ' ' + label;
         },
 
         _percentChanged: function (percent) {
