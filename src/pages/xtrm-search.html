@@ -64,8 +64,6 @@
     (function () {
       'use strict';
 
-      var loading = 0;
-
       var dump_data = [
         {
           id: 5,
@@ -252,27 +250,41 @@
 
         _dataChanged: function () {
           if (!this.data || !this.data.search_query) return;
-          this.searchQuery = this.data.search_query;
+          this.searchQuery = decodeSearchURL(this.data.search_query);
         },
 
         _updateQuery: function (isVisible, query) {
           if (!isVisible) return;
-          //TODO: replace spaces in URI with `+` instead of standard `%20`
-          history.replaceState(null, null, '/search/' + encodeURI(query));
+          history.replaceState(null, null, '/search/' + encodeSearchURL(query));
           if (!query) return;
           this.loading = true;
           this.results = [];
-          //TODO-dennis: replace with actual search request
-          // Test request
+          // Set a timeout for fetching search results from the server
           if (loadingTimeout) window.clearTimeout(loadingTimeout);
           loadingTimeout = window.setTimeout(function() {
-            loading++;
-            console.log(loading);
-            this.loading = false;
-            this.results = dump_data;
+            // Search request
+            // Get post body for search request
+            var postBody = createSearchObjectFromQuery(query);
+            var request = new Request(API_SEARCH_URL, {
+              method: 'POST',
+              mode: 'cors',
+              redirect: 'follow',
+              body: JSON.stringify(postBody)
+            });
+            // Fetch search results
+            fetch(request).then(function(result) {
+              if (result.ok)
+                return result.json();
+            }.bind(this)).then(function(json) {
+              if (json.success) {
+                // Display results in a list
+                this.results = json.data;
+                this.loading = false;
+              }
+            }.bind(this));
+            // After 0.5s w/o typing fetch search results
           }.bind(this), 500);
         }
-
       });
     })();
   </script>
