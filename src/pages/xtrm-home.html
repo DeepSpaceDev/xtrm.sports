@@ -6,11 +6,15 @@
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
 
+<link rel="import" href="../styles/xtrm-styles.html">
+
 <link rel="import" href="../xtrm-location-card.html">
 <link rel="import" href="xtrm-page-behavior.html">
 
 <dom-module id="xtrm-home">
   <template>
+    <!-- include the style module by name -->
+    <style include="xtrm-styles"></style>
     <style>
       :host {
         display: flex;
@@ -45,26 +49,14 @@
         flex: 1 1 auto;
       }
 
+      #search paper-icon-button {
+        color: #fff;
+      }
+
       paper-input#searchInput {
         position: absolute;
         top: 50%;
         left: 50%;
-        /* TODO: group following styles and styles for search in `xtrm-home` in a CSS variable */
-        width: 550px;
-        margin-top: -28px;
-        margin-left: -275px;
-        --paper-input-container-color: #fff;
-        --paper-input-container-focus-color: var(--primary-color);
-        --paper-input-container-input-color: #fff;
-        --paper-input-container-label: {
-          font-size: 24px;
-        };
-        --paper-input-container-input: {
-          font-size: 24px;
-        };
-        --paper-input-container-underline-focus: {
-          height: 3px;
-        };
         transition: transform ease var(--animate-to-search-page-speed);
       }
 
@@ -72,7 +64,7 @@
         position: relative;
         height: 200px;
         width: 100%;
-        background: rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.45);
         transition: transform ease-out var(--animate-to-search-page-speed);
       }
 
@@ -102,7 +94,7 @@
     </style>
     <header></header>
     <div id="search">
-      <paper-input id="searchInput" label="Find it..." no-label-float on-input="animateToSearchPage">
+      <paper-input id="searchInput" class="search" label="Find it..." no-label-float on-input="animateToSearchPage">
         <paper-icon-button suffix icon="search" on-tap="animateToSearchPage"></paper-icon-button>
       </paper-input>
     </div>
@@ -132,8 +124,8 @@
       _gotVisible: function () {
         this.$.suggestions.removeAttribute('inert');
         this.classList.remove('search');
-        //TODO: set to location specific image
-        this.fire('setBackgroundImage', {image: 'src/images/background.jpeg'});
+        //TODO: set different images
+        this.fire('setBackgroundImage', {image: 'https://c1.staticflickr.com/4/3674/8957569072_9a7564416d_k.jpg'});
       },
 
       animateToSearchPage: function () {

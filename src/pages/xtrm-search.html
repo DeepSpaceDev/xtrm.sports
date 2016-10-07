@@ -2,34 +2,21 @@
 
 <link rel="import" href="../../bower_components/paper-spinner/paper-spinner-lite.html">
 
+<link rel="import" href="../styles/xtrm-styles.html">
+
 <link rel="import" href="xtrm-page-behavior.html">
 <link rel="import" href="../images/xtrm-loader.html">
 <link rel="import" href="../xtrm-search-item.html">
 
 <dom-module id="xtrm-search">
   <template>
+    <!-- include the style module by name -->
+    <style include="xtrm-styles"></style>
     <style>
       :host {
         display: flex;
         flex-direction: column;
         align-items: center;
-      }
-
-      #searchInput {
-        /* TODO: group following styles and styles for search in `xtrm-home` in a CSS variable */
-        width: 550px;
-        --paper-input-container-color: #fff;
-        --paper-input-container-focus-color: var(--primary-color);
-        --paper-input-container-input-color: #fff;
-        --paper-input-container-label: {
-          font-size: 24px;
-        };
-        --paper-input-container-input: {
-          font-size: 24px;
-        };
-        --paper-input-container-underline-focus: {
-          height: 3px;
-        };
       }
 
       paper-spinner-lite {
@@ -50,7 +37,7 @@
         pattern="/:search_query"
         data="{{data}}">
     </app-route>
-    <paper-input id="searchInput" label="Find it..." no-label-float on-input="search" value="{{searchQuery}}" autofocus>
+    <paper-input id="searchInput" class="search" label="Find it..." no-label-float on-input="search" value="{{searchQuery}}" autofocus>
       <paper-icon-button suffix icon="search" on-tap="search"></paper-icon-button>
     </paper-input>
     <xtrm-loader alt="Loading locations" active="[[loading]]"></xtrm-loader>
@@ -214,7 +201,6 @@
           suitability: 2
         }];
       var loadingTimeout;
-      //TODO: search icon here and in `xtrm-home` color white
       Polymer({
         is: 'xtrm-search',
 
