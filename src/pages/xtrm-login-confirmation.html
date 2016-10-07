@@ -53,6 +53,7 @@ Page for confirming the email login
       _dataChanged: function (visible) {
         if (!visible || !this.data || !this.data.token) return;
         var token = this.data.token;
+        //noinspection JSUnresolvedFunction
         var request = new Request(API_CONFIRM_URL, {
           method: 'POST',
           mode: 'cors',
@@ -63,6 +64,7 @@ Page for confirming the email login
         });
         var that = this;
         var startingTime = new Date();
+        //noinspection JSUnresolvedFunction
         fetch(request).then(function(result) {
           if (result.ok)
             return result.json();

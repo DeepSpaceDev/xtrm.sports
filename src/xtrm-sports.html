@@ -5,7 +5,6 @@
 
 <link rel="import" href="../bower_components/font-roboto/roboto.html">
 
-<link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
@@ -24,7 +23,7 @@
   <template>
     <style>
       :root {
-        --primary-color: #FF0F03;
+        --primary-color: #FF1744;
         --primary-text-color: #212121;
         --secondary-text-color: #757575;
         font-family: 'Roboto', 'Noto', sans-serif;
@@ -106,10 +105,10 @@
         this.$.loginDialog.open();
       },
 
-      /*
-       * _setPage(Event e)
-       * set the main page to display
-       *   e.detail.page: dom to show
+      /**
+       * Set the main page to display
+       * @param e EventObject e.detail.page contains URL to load
+       * @private
        */
       _setPage: function (e) {
         var link = document.createElement('a');
@@ -120,8 +119,6 @@
             href = href.substr(1);
           href = location.origin + '/' + href;
         }
-        console.log(href);
-        console.log(isValidURL(href));
         if (!isValidURL(href)) return;
         link.href = href;
         document.body.appendChild(link);
@@ -145,8 +142,9 @@
       _pageChanged: function () {
         //noinspection JSUnresolvedVariable
         var pageItems = this.$.pageSelector.querySelectorAll('[page]');
+        //noinspection JSUnresolvedVariable
         var selectedItem = this.$.pageSelector.selectedItem;
-        for (var i=0; i<pageItems.length; i++) {
+        for (var i = 0; i < pageItems.length; i++) {
           var item = pageItems[i];
           item.updateVisiblity(item === selectedItem);
         }

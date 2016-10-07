@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>xtrm-location-info tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <script src="../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="../bower_components/iron-test-helpers/mock-interactions.js"></script>
+
+  <link rel="import" href="../src/pages/xtrm-location-info.html">
+
+</head>
+<body>
+
+<test-fixture id="DefaultFixture">
+  <template>
+    <xtrm-location-info></xtrm-location-info>
+  </template>
+</test-fixture>
+
+<script>
+  /** Default tests */
+  suite('<xtrm-location-info>', function () {
+    var locationInfo;
+
+    setup(() => {
+      locationInfo = fixture('DefaultFixture');
+    });
+
+  });
+  /** Accessibility tests */
+  suite('<xtrm-location-info>', function () {
+    var locationInfo;
+
+    setup(() => {
+      locationInfo = fixture('DefaultFixture');
+    });
+
+    a11ySuite('DefaultFixture');
+  });
+
+</script>
+</body>
+</html>

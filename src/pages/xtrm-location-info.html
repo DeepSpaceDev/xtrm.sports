@@ -6,7 +6,6 @@
 <link rel="import" href="../cards/xtrm-topo-card.html">
 <link rel="import" href="../cards/xtrm-weather-card.html">
 
-<link rel="import" href="../xtrm-card-description.html">
 <link rel="import" href="../xtrm-column-handler.html">
 <link rel="import" href="xtrm-page-behavior.html">
 
@@ -198,7 +197,6 @@
             this._setDiscipline(json.discipline);
 
             var cards = [];
-            //TODO-dennis: rename to json.difficulty as the api changes
             var infoCard = getInfoCardObject(
                 json.difficulty, json.groups, json.families, json.altitude_top, json.altitude_bottom);
             if (infoCard != null) cards.push(infoCard);
