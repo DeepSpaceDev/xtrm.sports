@@ -1,7 +1,7 @@
 const HTML_PROTOCOL = 'http://';
 const WS_PROTOCOL = 'ws://';
 
-const API_BASE_URL = 'api.deepspace.onl:5555/';
+const API_BASE_URL = 'api.xtrm-sports.com/';
 
 const API_LOGIN_URL = WS_PROTOCOL + API_BASE_URL + 'login/';
 const API_CONFIRM_URL = HTML_PROTOCOL + API_BASE_URL + 'confirm/';
