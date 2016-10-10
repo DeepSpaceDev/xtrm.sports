@@ -39,14 +39,15 @@
         height: 200px;
         margin-top: 32px;
         cursor: default;
-        background-size: contain;
-        background: url('http://localhost:8080/src/images/xtrm.sports-logo_name.png') no-repeat;
+        background: url('/src/images/xtrm.sports-logo_name.png') no-repeat;
         background-position-x: 50%;
+        background-size: contain;
       }
 
       #search {
-        position: relative;
         flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
       }
 
       #search paper-icon-button {
@@ -54,9 +55,7 @@
       }
 
       paper-input#searchInput {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        align-self: center;
         transition: transform ease var(--animate-to-search-page-speed);
       }
 

@@ -4,8 +4,7 @@
     <style>
       paper-input.search {
         width: 550px;
-        margin-top: -28px;
-        margin-left: -275px;
+        color: #fff;
         --paper-input-container-color: #fff;
         --paper-input-container-focus-color: var(--primary-color);
         --paper-input-container-input-color: #fff;
@@ -18,6 +17,11 @@
         --paper-input-container-underline-focus: {
           height: 3px;
         };
+      }
+      @media (max-width: 710px) {
+        paper-input.search {
+          width: calc(100% - 160px);
+        }
       }
     </style>
   </template>
