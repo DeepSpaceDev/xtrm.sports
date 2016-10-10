@@ -13,7 +13,7 @@
     "iron-a11y-keys-behavior": "PolymerElements/iron-a11y-keys-behavior#^1.1.7",
     "google-map": "GoogleWebComponents/google-map#^1.1.11",
     "paper-spinner": "^1.2.0",
-    "xtrm-sports-elements": "^0.3.2"
+    "xtrm-sports-elements": "^0.3.3"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

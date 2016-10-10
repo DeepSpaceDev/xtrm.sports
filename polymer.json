@@ -1,4 +1,10 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/xtrm-sports.html"
+  "shell": "src/xtrm-sports.html",
+  "fragments": [
+    "src/pages/xtrm-home.html",
+    "src/pages/xtrm-location-info.html",
+    "src/pages/xtrm-login-confirmation.html",
+    "src/pages/xtrm-search.html"
+  ]
 }
