@@ -65,7 +65,7 @@
         tail="{{tail}}">
     </app-route>
 
-    <xtrm-background-image src="[[backgroundImage]]"></xtrm-background-image>
+    <xtrm-background-image></xtrm-background-image>
 
     <xtrm-button id="login" on-tap="login">Login</xtrm-button>
     <iron-pages id="pageSelector" attr-for-selected="page" fallback-selection="home" selected="[[data.page]]"
@@ -135,8 +135,9 @@
        *   e.detail.image: path to background image
        */
       _setBackgroundImage: function (e) {
-        //noinspection JSUnusedGlobalSymbols
-        this.backgroundImage = e.detail.image;
+        var backgroundImageHandler = this.$$('xtrm-background-image');
+        backgroundImageHandler.setImage(e.detail.image);
+        backgroundImageHandler.setImages(e.detail.images);
       },
 
       _pageChanged: function () {

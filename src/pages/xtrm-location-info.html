@@ -104,13 +104,17 @@
       properties: {
         route: Object,
         data: Object,
-        columns: {
+        columnCount: {
           type: Number,
           value: function () {
             return this.calculateColumns();
           },
           readOnly: true,
           observer: '_reorderColumns'
+        },
+        locationData: {
+          type: Object,
+          readOnly: true
         },
         name: {
           type: String,
@@ -132,25 +136,25 @@
         cards: {
           type: Array,
           value: function () { return []; },
-          readOnly: true,
+          readOnly: true
         }
       },
 
       observers: [
-          '_reorderColumns(cards.*, columns)',
+          '_reorderColumns(cards.*, columnCount)',
           '_updateLocation(visible, data.*)'
       ],
 
       _reorderColumns: function (cardSplices, columnCount) {
         var array = [];
-        for (var i=0; i<this.columns; i++) {
+        for (var i=0; i<this.columnCount; i++) {
           array[i] = [];
         }
         var cards = this.cards || [];
         var column = 0;
         for (var i=0; i<cards.length; i++) {
           array[column].push(cards[i]);
-          column = column < this.columns - 1 ? column + 1 : 0;
+          column = column < this.columnCount - 1 ? column + 1 : 0;
         }
         this._set_pseudoColumnArray(array);
       },
@@ -175,9 +179,9 @@
 
       calculateColumns: function () {
         var width = screen.width * 0.8;
-        var columns = Number.parseInt(width / DEFAULT_CARD_WIDTH);
-        this._setColumns(columns);
-        return columns;
+        var columnCount = Number.parseInt(width / DEFAULT_CARD_WIDTH);
+        this._setColumnCount(columnCount);
+        return columnCount;
       },
 
       _updateLocation: function (visible) {
@@ -207,14 +211,17 @@
             var weatherCard = getWeatherCardObject();
             if (weatherCard != null) cards.push(weatherCard);
 
-            var mapCard = getMapCardObject(json.country, json.region,
-                json.location.lat, json.location.lng, json.location_parking.lat, json.location_parking.lng);
+            var mapCard = getMapCardObject(json.country, json.region, json.location.lat, json.location.lng,
+                json.location_parking ? json.location_parking.lat: null,
+                json.location_parking ? json.location_parking.lng : null);
             if (mapCard != null) cards.push(mapCard);
 
             var topoCard = getDescriptionCardObject(json.topo);
             if (topoCard != null) cards.push(topoCard);
 
             this._setCards(cards);
+            this._setLocationData(json);
+            this._updateImages();
           } else {
             if (json.error_code === 404) {
               this.$.notFound.classList.remove('hidden');
@@ -226,7 +233,16 @@
       //has to be called when element gets visible
       _gotVisible: function () {
         //todo set to location specific image
-        this.fire('setBackgroundImage', {image: 'src/images/location.jpg'});
+        this._updateImages();
+      },
+
+      _updateImages: function () {
+        if (this.locationData && this.locationData.pictures) {
+          this.fire('setBackgroundImage', {images: this.locationData.pictures});
+        } else {
+          // Fallback image
+          this.fire('setBackgroundImage', {image: 'https://c1.staticflickr.com/4/3674/8957569072_9a7564416d_k.jpg'});
+        }
       }
     });
   </script>
