@@ -116,14 +116,14 @@ Example:
 
       _imagesChanged: function () {
         var IMAGE_SHOW_TIME = 5000;
-        // Clear image cicling interval
+        // Clear image cycling interval
         window.clearInterval(this._imageInterval);
         this._set_nextIndex(0);
         // Check for multiple images
         if (this.images && this.images.length > 1) {
           // Muliple images
-          // Add interval for image cicling
-          window.setInterval(this.showNextImage.bind(this), IMAGE_SHOW_TIME);
+          // Add interval for image cycling
+          this._set_imageInterval(window.setInterval(this.showNextImage.bind(this), IMAGE_SHOW_TIME));
           this.showNextImage();
         }
         // Check for single image
